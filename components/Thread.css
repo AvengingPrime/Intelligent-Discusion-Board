@@ -1,0 +1,46 @@
+body {
+    left: 7px;
+    font-family: Karla;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 14px;
+    letter-spacing: 0.05em;
+    text-align: left;
+    
+
+}
+
+
+
+.threadCard {
+    float: right;
+    width: 86vw;
+    height: 120px;
+    background: rgba(181, 134, 78, 0.26);
+    border-radius: 10px 0px 0px 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+
+    cursor: pointer;
+    
+}
+
+.threadTitle {
+    position: relative;
+    left: 100px;
+    font-family: Karla;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 14px;
+    letter-spacing: 0.05em;
+    text-align: left;
+    max-width: 900px;
+    height: 40px;
+    
+}
+
+.threadTags {
+    position: relative;
+    bottom: -20px;
+}
