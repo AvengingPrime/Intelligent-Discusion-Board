@@ -12,7 +12,7 @@ body {
 
 
 
-.threadCard {
+button.threadCard {
     float: right;
     width: 86vw;
     height: 120px;
@@ -21,6 +21,7 @@ body {
     margin-top: 10px;
     margin-bottom: 10px;
     margin-left: 10px;
+    text-align: left;
 
     cursor: pointer;
     
@@ -42,5 +43,38 @@ body {
 
 .threadTags {
     position: relative;
-    bottom: -20px;
+    bottom: -10px;
+}
+
+.vote {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+
+    position: relative;
+    left: 40vw;
+    bottom:4vw;
+    
+
+    width:min-content 200px;
+    height:min-content 20px;
+}
+
+
+
+.upvote {
+    border-width: 1px;
+    background-color: #E5D9CA;
+    
+}
+
+.downvote {
+    border-width: 1px;
+    background-color: #E5D9CA;
+    
+}
+
+p {
+    font-size: 28px;
 }

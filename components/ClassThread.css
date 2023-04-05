@@ -27,19 +27,20 @@ body {
 .ClassThreadTitle {
     
     font-family: Karla;
-    font-size: 12px;
-    font-weight: 400;
+    font-size: 24px;
+    font-weight: bolder;
     line-height: 14px;
     letter-spacing: 0.05em;
     text-align: left;
     max-width: 900px;
-    height: 40px;
+    position: relative;
+    left: 7px;
     
 }
 
 .askButton {
     width: 200px;
-    height: 40px;
+    height: 35px;
     position: absolute;
     left: 90vw;
     top: 6vw;

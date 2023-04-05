@@ -1,20 +1,21 @@
 import React from "react";
 import './ClassThread.css';
+import {Link } from "react-router-dom";
 
 const ClassThread = () => {
     return (
-        <header className="ClassThreadCard">
+        <div className="ClassThreadCard">
             {/* bio and class name will be filled in whenever the call to database from App is done w parameters describing the classThread*/}
-            <h1 classname= "ClassThreadTitle">CL#### - Class Name - Class Professor</h1>
+            <h1 className= "ClassThreadTitle">CL#### - Class Name - Class Professor</h1>
 
             <body>class-bio-class-bio-class-bio-class-bio-class-bio-class-bio-class-bio-
             class-bio-class-bio-class-bio-class-bio-class-bio-class-bio-class-bio-class-bio-
             class-bio-class-bio-class-bio-class-bio-class-bio-class-bio-class-bio-class-bio-
             </body>
 
-            <button className = "askButton">Ask a Question</button>
+            <Link to ='/createThread' className = "askButton">Ask a Question</Link>
 
-        </header>
+        </div>
     )
 }
 
