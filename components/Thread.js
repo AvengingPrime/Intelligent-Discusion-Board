@@ -1,5 +1,5 @@
 import React from "react";
-import './Thread.css';
+import '../styles/Thread.css';
 import { useState, useEffect } from "react";
 import { ReactDOM } from "react";
 import Vote from "./Vote";

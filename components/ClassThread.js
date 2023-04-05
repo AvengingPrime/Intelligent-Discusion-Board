@@ -1,5 +1,5 @@
 import React from "react";
-import './ClassThread.css';
+import '../styles/ClassThread.css';
 import {Link } from "react-router-dom";
 
 const ClassThread = () => {

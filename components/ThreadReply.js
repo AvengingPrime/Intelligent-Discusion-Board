@@ -1,5 +1,5 @@
 import React from "react";
-import './ThreadReply.css';
+import '../styles/ThreadReply.css';
 import { useState, useEffect } from "react";
 import { ReactDOM } from "react";
 import Vote from "./Vote";
