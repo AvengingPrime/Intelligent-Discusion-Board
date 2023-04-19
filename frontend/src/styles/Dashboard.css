@@ -1,0 +1,61 @@
+div.DashboardSticky {
+    position: fixed;
+    top: 70px;
+    left: 15px;
+    z-index: 99;
+}
+
+div.Dashboard {
+    background: #d9d9d9;
+    border-radius: 10px;
+    width: 12vw;
+    height: 880px;
+}
+
+
+.DashboardFlex {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.DashboardTitle {
+    font-family: 'Karla';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 28px;
+    letter-spacing: 0.05em;
+    padding: 8px;
+
+    color: #926d42;
+}
+
+.DashboardButton {
+    width: 11vw;
+    height: 80px;
+    margin: 5px;
+    border: none;
+    background-color: #c1baba;
+    border-radius: 10px;
+    padding: 10px;
+    
+
+    cursor: pointer;
+
+    font-family: 'Karla';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 28px;
+    letter-spacing: 0.05em;
+}
+
+h2.dashboardAdd {
+    position: relative;
+    float: bottom;
+    left: 145px;
+    bottom: 35px;
+
+    cursor: pointer;
+}

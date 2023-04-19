@@ -1,0 +1,11 @@
+body {
+    margin: 0;
+    background-color: antiquewhite;
+}
+
+.container {
+    max-width: 2560px;
+    margin: 0 auto;
+    
+}
+

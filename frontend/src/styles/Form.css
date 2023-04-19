@@ -1,0 +1,235 @@
+.formChild {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: var(--class-thread);
+    width: 1440px;
+    height: 103px;
+  }
+  .courseName {
+    position: absolute;
+    top: 47px;
+    left: 47px;
+    display: inline-block;
+    width: 1330px;
+    height: 56px;
+  }
+  .formInner {
+    position: absolute;
+    top: 99px;
+    left: 0;
+    background-color: #d9d9d9;
+    width: 1440px;
+    height: 470px;
+  }
+  .postName {
+    top: 127px;
+    left: 27px;
+    font-size: var(--font-size-mini);
+    width: 312px;
+    height: 85px;
+  }
+  .description,
+  .enterPostTitle,
+  .postName {
+    position: absolute;
+    display: inline-block;
+  }
+  .description {
+    top: 270px;
+    left: 25px;
+    font-size: var(--font-size-mini);
+    width: 753px;
+    height: 54px;
+  }
+  .enterPostTitle {
+    top: 9px;
+    left: 9px;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+    width: 351px;
+    height: 14px;
+  }
+  .maskGroupChild {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: var(--color-black);
+    width: 1px;
+    height: 17px;
+  }
+  .maskGroup {
+    position: absolute;
+    top: 16px;
+    left: 9px;
+    width: 105px;
+    height: 14px;
+  }
+  
+  
+  .postTitleInput {
+    position: absolute;
+    /*box-sizing: border-box;*/
+    top: 173px;
+    left: 25px;
+    background-color: var(--color-white);
+    border: 1px solid var(--color-black);
+    width: 1200px;
+    height: 30px;
+    overflow: hidden;
+    font-size: 15px;
+    color: var(--color-gray-100);
+    font-family: var(--font-karla);
+  }
+  .error {
+    position: absolute;
+    top: 131px;
+    left: 18px;
+    display: inline-block;
+    width: 324px;
+    height: 28px;
+    opacity: 0.8;
+  }
+  .postDescriptionInputChild {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: var(--color-white);
+    border: 1px solid var(--color-black);
+    box-sizing: border-box;
+    width: 1200px;
+    height: 173px;
+  }
+  .enterPostDescription {
+    position: absolute;
+    top: 22px;
+    left: 18px;
+    color: var(--color-gray-100);
+    display: inline-block;
+    width: 435px;
+    height: 33px;
+  }
+  .postDescriptionInputItem {
+    position: absolute;
+    top: 54.5px;
+    left: 17.5px;
+    border-right: 1px solid var(--color-black);
+    box-sizing: border-box;
+    width: 1px;
+    height: 38px;
+    opacity: 0;
+  }
+  .wrapper {
+    width: 38.013511657714844px;
+    border: 0;
+    background-color: transparent;
+    position: absolute;
+    top: 121.5px;
+    left: 717.5px;
+    transform: rotate(88.45deg);
+    transform-origin: 0 0;
+    opacity: 0;
+  }
+  .maskGroupItem {
+    position: absolute;
+    top: 3px;
+    left: 0;
+    background-color: var(--color-black);
+    width: 1px;
+    height: 20px;
+  }
+  .maskGroup1 {
+    position: absolute;
+    top: 70px;
+    left: 26px;
+    width: 754px;
+    height: 103px;
+  }
+  .postDescriptionInput {
+    position: absolute;
+    top: 299px;
+    left: 27px;
+    background-color: transparent;
+    width: 1250px;
+    height: 188px;
+    /*overflow: hidden;*/
+    color: #e90606;
+  }
+  .rectangleDiv {
+    position: absolute;
+    top: 569px;
+    left: 0;
+    background-color: #eae2d6;
+    width: 1440px;
+    height: 455px;
+  }
+  .component1Child {
+    cursor: pointer;
+    border: 0;
+    padding: 0;
+    background-color: var(--color-gray-200);
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+  .attachFiles {
+    position: absolute;
+    height: 46.34%;
+    width: 90.95%;
+    top: 26.83%;
+    left: 3.81%;
+    font-size: var(--font-size-mini);
+    font-family: var(--font-inter);
+    color: var(--color-black);
+    text-align: left;
+    display: inline-block;
+  }
+  .component1 {
+    cursor: pointer;
+    border: 0;
+    padding: 0;
+    background-color: transparent;
+    position: absolute;
+    top: 610px;
+    left: 25px;
+    width: 359px;
+    height: 70px;
+  }
+  .submit {
+    position: absolute;
+    height: 70%;
+    width: 39.05%;
+    top: 30%;
+    left: 5.24%;
+    font-size: var(--font-size-mini);
+    font-family: var(--font-inter);
+    color: var(--color-black);
+    text-align: left;
+    display: inline-block;
+  }
+  .component2 {
+    cursor: pointer;
+    border: 0;
+    padding: 0;
+    background-color: transparent;
+    position: absolute;
+    top: 716px;
+    left: 25px;
+    width: 359px;
+    height: 68px;
+  }
+  .form {
+    position: relative;
+    background-color: var(--color-white);
+    width: 100%;
+    height: 1024px;
+    overflow: hidden;
+    text-align: left;
+    font-size: var(--font-size-5xl);
+    color: var(--color-black);
+    font-family: var(--font-inter);
+  }

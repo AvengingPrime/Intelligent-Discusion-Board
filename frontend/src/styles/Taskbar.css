@@ -1,0 +1,56 @@
+
+
+.Taskbar {
+    background: #ce8939;
+    width: 2545px;
+    height: 50px;
+    top: 0px;
+    padding: 0px;
+    margin: 0px;
+    box-shadow: 0px 4px 4px rgba(0,0,0,0.25);
+    border-radius: 0px 0px 10px 10px;
+    
+}
+
+.sticky {
+    position: fixed;
+    top: 0;
+    z-index: 100;
+    
+}
+
+.TaskbarButtons {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    bottom: 15px;
+}
+
+Link.functionButton {
+    font-family: Karla;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 14px;
+    letter-spacing: 0.05em;
+    text-align: center;
+    background-color: antiquewhite;
+    color: #2B1E0F;
+
+
+    margin: 5px;
+    border: none;
+    cursor: pointer;
+    background-color: #ce8939;
+}
+
+
+
+img {
+    position: absolute;
+    left: 45vw;
+    top: 10px;
+    width: 290px;
+    height: 60px;
+    z-index: 105;
+}
+
