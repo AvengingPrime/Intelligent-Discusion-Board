@@ -60,7 +60,7 @@ const test = {
   PosterID: "this is test posterID"
 };
 
-const url = 'http://10.176.67.70:3210/getThread/0000000001'
+const url = 'http://localhost:3000/getThread/0000000001'
 useEffect(() => {
 
 /*
