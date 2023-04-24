@@ -4,24 +4,24 @@
 //TA should not be able to add more instructors
 //TA should not be able to add students course
 //TA moderation capabilities
-const validUserTypeSet = new Set(['professor','student']);
+const validUserTypeSet = new Set(['professor', 'student']);
 
-var mysql      = require('mysql');
+var mysql = require('mysql');
 //TODO: get correct db login info
 var connection = mysql.createConnection({
-    host: "10.176.67.70",
+    host: "localhost",
     user: "team7",
     password: "idb",
-    database:"IntelligentDiscussionBoard"
+    database: "IntelligentDiscussionBoard"
 });
 
 
 connection.connect((error) => {
-  if (error) {
-    console.error('Error connecting to database:', error);
-  } else {
-    console.log('Connected to database!');
-  }
+    if (error) {
+        console.error('Error connecting to database:', error);
+    } else {
+        console.log('Connected to database!');
+    }
 });
 
 /*If username or email is already in database return failure
@@ -42,18 +42,15 @@ function insertUser(userID, username, email, userType, callback) {
     const USER_ID_LENGTH = 10;
     const USERNAME_MIN_LENGTH = 5;
     //check if username is too short
-    if(username.length < USERNAME_MIN_LENGTH)
-    {
+    if (username.length < USERNAME_MIN_LENGTH) {
         callback("username is too short");
         return;
     }
-    if(userID.length != USER_ID_LENGTH)
-    {
+    if (userID.length != USER_ID_LENGTH) {
         callback("userID is invalid length");
         return;
     }
-    if(!validUserTypeSet.has(userType) )
-    {
+    if (!validUserTypeSet.has(userType)) {
         callback("invalid userType");
         return;
     }
@@ -100,6 +97,16 @@ function deleteUser(userID, callback) {
 }
 
 
+function getUser(userID, callback) {
+    connection.query('SELECT * FROM USER WHERE UserID = ?', [userID], function (error, results, fields) {
+        if (error) {
+            callback(error);
+        } else {
+            callback(null, results[0]);
+        }
+    });
+}
+
 
 /*Changes the permission aka userType of a user
   NOTE: DO NOT USE THIS WITHOUT CHECKING PROPER PERMISSION BEFORE USE
@@ -118,8 +125,8 @@ function changeUserType(userID, newUserType, callback) {
             callback(err);
         } else if (results.length === 0) {
             callback('userID not found in database');
-        } else if(validUserTypeSet.has(newUserType)){
-            
+        } else if (validUserTypeSet.has(newUserType)) {
+
             // email exists, update the username
             const updateQuery = 'UPDATE USER SET userType = ? WHERE userID = ?';
             connection.query(updateQuery, [newUserType, userID], (updateErr, updateResults) => {
@@ -131,7 +138,7 @@ function changeUserType(userID, newUserType, callback) {
             });
         }
         else
-          callback('Not legal userType');
+            callback('Not legal userType');
     });
 }
 
@@ -191,16 +198,15 @@ function deleteThread(threadId, callback) {
             callback(error);
         } else {
             callback(null, results);
-            if(results != null)
-            {
-              const sql2 = `DELETE FROM REPLY WHERE ThreadID = ${threadId}`;
-              connection.query(sql2, (error, results) => {
-                if (error) {
-                    callback(error);
-                } else {
-                  callback(null, results); 
-                }
-              });
+            if (results != null) {
+                const sql2 = `DELETE FROM REPLY WHERE ThreadID = ${threadId}`;
+                connection.query(sql2, (error, results) => {
+                    if (error) {
+                        callback(error);
+                    } else {
+                        callback(null, results);
+                    }
+                });
             }
         }
     });
@@ -224,14 +230,14 @@ function insertReply(replyId, userID, threadRepID, replyType, text) {
     //This is the query that runs if not
     const currentTimestamp = new Date().toISOString().slice(0, 19).replace('T', ' ');
     const insertUserSql = 'INSERT INTO reply (replyId, userID, threadRepID, replyType, currentTimestamp, upVotes, downVotes, text) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
-    const insertUserValues = [replyId, userID, threadRepID, replyType, currentTimestamp, 0 , 0, text];
+    const insertUserValues = [replyId, userID, threadRepID, replyType, currentTimestamp, 0, 0, text];
     // Insert the new reply
     connection.query(insertUserSql, insertUserValues, (error, results, fields) => {
-            if (error) {
-                console.error(error.message);
-                return;
-            }
-            console.log(`New Reply added with id: ${results.insertId}`);
+        if (error) {
+            console.error(error.message);
+            return;
+        }
+        console.log(`New Reply added with id: ${results.insertId}`);
     });
 }
 
@@ -257,9 +263,8 @@ function deleteReply(replyId, callback) {
 * @param callback returns null on FAILURE returns the query on SUCCESS
 * note that if you wish to get votes to use this function
 */
-function getReply(replyID, callback)
-{
-    connection.query('SELECT * FROM REPLY WHERE ReplyID = ?', [replyID], function(error, results, fields) {
+function getReply(replyID, callback) {
+    connection.query('SELECT * FROM REPLY WHERE ReplyID = ?', [replyID], function (error, results, fields) {
         if (error) {
             callback(error);
         } else {
@@ -272,7 +277,7 @@ function getReply(replyID, callback)
  *@param userID the name of the student
  *@param replyID the id of the reply
  */
-function hasVotedToReply(userID, replyID, callback){
+function hasVotedToReply(userID, replyID, callback) {
     const query = "SELECT * FROM UpVotes WHERE replyID = ? AND userID = ?";
     const params = [replyID, userID];
 
@@ -299,7 +304,7 @@ function hasVotedToReply(userID, replyID, callback){
 function getThreadReplies(threadID, callback) {
     //Recursively find the replies that have a reply id to a thread id and replies that have a reply id to a reply id
     //to a thread id and so forth
-     connection.query('SELECT * FROM REPLY WHERE ThreadID = ?', [threadID], function(error, results, fields) {
+    connection.query('SELECT * FROM REPLY WHERE ThreadID = ?', [threadID], function (error, results, fields) {
         if (error) {
             callback(error);
         } else {
@@ -313,7 +318,7 @@ function getThreadReplies(threadID, callback) {
  *@param callback on error is null on success of the query it will be the row with the thread id in thread
  */
 async function getThread(threadID, callback) {
-    connection.query('SELECT * FROM THREAD WHERE threadID = ?', [threadID], function(error, results, fields) {
+    connection.query('SELECT * FROM THREAD WHERE threadID = ?', [threadID], function (error, results, fields) {
         if (error) {
             callback(error);
         } else {
@@ -323,6 +328,15 @@ async function getThread(threadID, callback) {
 }
 
 
+async function getThreadForSection(sectionID, callback) {
+    connection.query('SELECT * FROM THREAD WHERE ClassID = ?', [sectionID], function (error, results, fields) {
+        if (error) {
+            callback(error);
+        } else {
+            callback(null, results[0]);
+        }
+    });
+}
 
 
 /*Inserts a new section to the section table given a sectionID, userID, courseName, courseNumber, courseType, Description,
@@ -341,20 +355,30 @@ function insertSection(sectionID, userID, courseName, courseNumber, courseType, 
     //This is the query that runs if not
     const insertSectionSql = 'INSERT INTO section (sectionID, userID, courseName, courseNumber, courseType, Description, Syllabus) VALUES (?, ?, ?, ?, ?, ?, ?)';
     const insertUserValues = [sectionID, userID, courseName, courseNumber, courseType, Description, Syllabus];
-        // Insert the new section into the database
-        connection.query(insertSectionSql, insertUserValues, (error, results, fields) => {
-            if (error) {
-                console.error(error.message);
-                return;
-            }
-            console.log(`New Section added with id: ${results.insertId}`);
-        });
+    // Insert the new section into the database
+    connection.query(insertSectionSql, insertUserValues, (error, results, fields) => {
+        if (error) {
+            console.error(error.message);
+            return;
+        }
+        console.log(`New Section added with id: ${results.insertId}`);
+    });
 }
 
 //Gets Students in a section
-function getStudentsInSection(sectionID,callback)
-{
-  const sql = `SELECT UserID FROM Section_Users WHERE SectionID = ${mysql.escape(sectionID)}`;
+function getStudentsInSection(sectionID, callback) {
+    const sql = `SELECT UserID FROM Section_Users WHERE SectionID = ${mysql.escape(sectionID)}`;
+    connection.query(sql, (error, results) => {
+        if (error) {
+            callback(error);
+        } else {
+            callback(null, results);
+        }
+    });
+}
+
+function getSectionsOfStudent(userID, callback) {
+    const sql = `SELECT SectionID FROM SECTION_USERS WHERE UserID = ${mysql.escape(userID)}`;
     connection.query(sql, (error, results) => {
         if (error) {
             callback(error);
@@ -393,12 +417,12 @@ function insertUserToSection(sectionID, userID, userType) {
     const insertUserToSectionSql = 'INSERT INTO section_users (sectionID, userID, userType) VALUES (?, ?, ?)';
     const insertUserToSectionValues = [sectionID, userID, userType];
     // Insert the new section into the database
-    connection.query(insertUserToSectionSql, insertUserToSectionValues , (error, results, fields) => {
+    connection.query(insertUserToSectionSql, insertUserToSectionValues, (error, results, fields) => {
         if (error) {
             console.error(error.message);
             return;
         }
-        console.log(`New User inserted to section added with id:`+ userID + ' to section '+ sectionID );
+        console.log(`New User inserted to section added with id:` + userID + ' to section ' + sectionID);
     });
 }
 
@@ -430,10 +454,10 @@ function deleteUserFromSection(sectionID, userID, callback) {
 //TODO: ensure safe concurrent usage that and also fail to insert on duplicate documents
 function insertSectionDocument(sectionID, document, title, desc) {
     //This is the query that runs if not
-    const insertDoc= 'INSERT INTO section_users (sectionID, document, title, desc)) VALUES (?, ?, ?, ?)';
+    const insertDoc = 'INSERT INTO section_users (sectionID, document, title, desc)) VALUES (?, ?, ?, ?)';
     const insertDocValues = [sectionID, document, title, desc];
     // Insert the new section into the database
-    connection.query(insertDoc, insertDocValues  , (error, results, fields) => {
+    connection.query(insertDoc, insertDocValues, (error, results, fields) => {
         if (error) {
             console.error(error.message);
             return;
@@ -448,7 +472,7 @@ function insertSectionDocument(sectionID, document, title, desc) {
 *
 */
 //potential TODO: ensure safe concurrent usage
-function deleteSectionDocument(sectionID, title,  callback) {
+function deleteSectionDocument(sectionID, title, callback) {
     const sql = `DELETE FROM section_documents WHERE sectionID = ${sectionID} AND document_title =${title}`;
     connection.query(sql, (error, results) => {
         if (error) {
@@ -470,12 +494,12 @@ function muteStudent(sectionID, userID, timeEnd) {
     const insertUserToMute = 'INSERT INTO mutedStudents (sectionID, userID, timeEnd) VALUES (?, ?, ?)';
     const insertUserToMuteValues = [sectionID, userID, timeEnd];
     // Insert the new section into the database
-    connection.query(insertUserToMute, insertUserToMuteValues , (error, results, fields) => {
+    connection.query(insertUserToMute, insertUserToMuteValues, (error, results, fields) => {
         if (error) {
             console.error(error.message);
             return;
         }
-        console.log(`User with the userID:`+ userID + ' has been muted');
+        console.log(`User with the userID:` + userID + ' has been muted');
     });
 }
 
@@ -498,22 +522,22 @@ function unmuteStudent(sectionID, userID, callback) {
 module.exports = {
     getThread: getThread,
     insertUser: insertUser,
-    getReply: getReply
+    getReply: getReply,
+    getUser: getUser,
+    getThreadReplies: getThreadReplies,
+    getSectionsOfStudent: getSectionsOfStudent
 };
 
 
 console.log("testing");
-var result  =  null;
+var result = null;
 getThread('0000000004', (error, result) => {
-  if (error) {
-    console.error(error);
-    
-  }
-  else
-  {
-    console.log(result);
-  }
+    if (error) {
+        console.error(error);
+
+    }
+    else {
+        console.log(result);
+    }
 });
-
-
 
