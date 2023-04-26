@@ -61,6 +61,7 @@ const [sectionidarray, setsectionidarray] = useState([]);
 const [currentStateValue, setcurrentStateValue] = useState([]);
 const [classThread, setclassThread] = useState([]);
 const [currentThread, setCurrentThread] = useState([]);
+const [replies, setReplies] = useState([]);
 
 // grabs the sections from userID
 useEffect(() => {
@@ -117,8 +118,12 @@ console.log(classThread)
 useEffect(() => {
 axios.get(getThreadsForSectionUrl + JSON.stringify(currentStateValue).substring(1,11))
 .then(response => {
+  console.log("Threads here")
   console.log(response)
- setThreads(response.data);
+  setThreads(response.data);
+  setCurrentThread(response.data[0])
+  console.log("Current Thread is")
+  console.log(currentThread)
 })
 .catch((err) => {
   // handling error
@@ -150,7 +155,6 @@ useEffect(() => {
     console.log(" getsection got this : ")
     console.log(response.data)
     setclassThread(response.data)
-    
   })
   .catch((err) => {
     // handling error
@@ -175,8 +179,10 @@ useEffect(() => {
   });
 }, [currentStateValue])
 
+const getRepliesUrl = 'http://localhost:3000/getThreadReplies/'
+
 useEffect(() => {
-  axios.get(getRepliesUrl)
+  axios.get(getRepliesUrl + JSON.stringify(currentThread.ThreadID).substring(1,11))
   .then(response => {
    setReplies(response.data);
   })

@@ -46,6 +46,8 @@ axios.get(url)
     return (
       <div className="container">
       {/* Threads will be populated based on the storedThreads in ClassThread */}
+      <Taskbar/>
+      <Search/>
       <Thread title={thread.Title} description={thread.Text} author={thread.PosterID} tags={['tags', 'go', 'here']} />
       {replies.map((reply) => (
         <Reply key={reply.id} author={reply.PosterID} description={reply.Text} />

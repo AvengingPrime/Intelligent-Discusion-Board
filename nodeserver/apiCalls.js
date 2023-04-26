@@ -318,7 +318,7 @@ function getThreadReplies(threadID, callback) {
  *@param callback on error is null on success of the query it will be the row with the thread id in thread
  */
 async function getThread(threadID, callback) {
-    connection.query('SELECT * FROM THREAD, USER WHERE threadID = ? and posterID = userID', [threadID], function (error, results, fields) {
+    connection.query('SELECT * FROM THREAD as T, USER as U WHERE T.threadID = ? and T.posterID = U.userID', [threadID], function (error, results, fields) {
         if (error) {
             callback(error);
         } else {
