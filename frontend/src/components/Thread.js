@@ -4,12 +4,45 @@ import { useState, useEffect } from "react";
 import { ReactDOM } from "react";
 import {Link } from "react-router-dom";
 import { AdminContext } from "../App";
+import {axios} from "axios";
 
-
-const Thread = ({title, description, author, tags, isHidden}) => {
+/*
+function handleThreadClick(ThreadID) {
+    const url = 'http://localhost:3000/getThreadReplies/${ThreadID}'
+    const [replies, setReplies] = useState([]);
+    axios.get(url)
+    .then(response => {
+      setReplies(response.data);
+     })
+     .catch((err) => {
+       // handling error
+       if (err.response) {
+         // Request made and server responded
+     
+         const { status, config } = err.response;
+     
+         if (status === 404) {
+           console.log(`${config.url} not found`);
+         }
+         if (status === 500) {
+           console.log("Server error");
+         }
+       } else if (err.request) {
+         // Request made but no response from server
+         console.log("Error", err.message);
+       } else {
+         // some other errors
+         console.log("Error", err.message);
+       }
+     });
+  }
+*/
+const Thread = ({id, title, description, author, tags, isHidden}) => {
+//function Thread(props) {
 //const Thread = ({threadData}) => {
 //const [details, setDetails] = useState([]);
-const tagsList = tags.join(', ');
+//const tagsList = tags.join(', ');
+const tagsList = ['']
 const hidden = isHidden;
 const {isAdmin} = useContext(AdminContext);
 /*
@@ -49,8 +82,9 @@ const {isAdmin} = useContext(AdminContext);
             </button>
         </Link>
         
-        </div>
+        
+    </div>
     )
 }
 }
-export default Thread
+export default Thread;

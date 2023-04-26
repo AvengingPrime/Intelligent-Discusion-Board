@@ -9,7 +9,7 @@ const validUserTypeSet = new Set(['professor', 'student']);
 var mysql = require('mysql');
 //TODO: get correct db login info
 var connection = mysql.createConnection({
-    host: "localhost",
+    host: "10.176.67.70",
     user: "team7",
     password: "idb",
     database: "IntelligentDiscussionBoard"
@@ -333,7 +333,7 @@ async function getThreadForSection(sectionID, callback) {
         if (error) {
             callback(error);
         } else {
-            callback(null, results[0]);
+            callback(null, results);
         }
     });
 }
@@ -524,6 +524,7 @@ module.exports = {
     insertUser: insertUser,
     getReply: getReply,
     getUser: getUser,
+    getThreadForSection: getThreadForSection,
     getThreadReplies: getThreadReplies,
     getSectionsOfStudent: getSectionsOfStudent
 };
@@ -540,4 +541,5 @@ getThread('0000000004', (error, result) => {
         console.log(result);
     }
 });
+
 

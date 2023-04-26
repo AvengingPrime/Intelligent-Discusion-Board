@@ -52,7 +52,7 @@ function HomePage() {
 }, [])
 */
 
-const [threadData, setthreadData] = useState([]);
+
 
 const test = {
   Title: "this is test",
@@ -60,7 +60,8 @@ const test = {
   PosterID: "this is test posterID"
 };
 
-const url = 'http://localhost:3000/getThread/0000000001'
+const url = 'http://localhost:3000/getThreadForSection/0000000001'
+const [threads, setThreads] = useState([]);
 useEffect(() => {
 
 /*
@@ -74,7 +75,10 @@ fetchData();
 */
 
 axios.get(url)
-.then(response => console.log(response.data))
+.then(response => {
+  console.log(response)
+ setThreads(response.data);
+})
 .catch((err) => {
   // handling error
   if (err.response) {
@@ -118,8 +122,9 @@ fetch('http://10.176.67.70:3210/getThread/0000000001')
 */
 
 }, [])
+//const threadArray = Object.values(threadData);
 
-//console.log('Data found was : ', threadData);
+console.log('Data found was : ', threads);
 
 /*
 fetch('https://jsonplaceholder.typicode.com/todos/1')
@@ -144,6 +149,7 @@ fetch('https://jsonplaceholder.typicode.com/todos/1')
   /*
   const [query, setQuery] = useState("");
   */
+
 if (isAdmin) {
   return (
     <main>
@@ -159,14 +165,22 @@ if (isAdmin) {
 else
 {
   return (
-    <main>
+    <div>
     <Taskbar />
     <Dashboard />
     <Search />
     <ClassThread />
+    {/*
+    {threadArray.map(thread => (
+      <Thread key = {thread.threadID} data={thread} />
+    ))}
     <Thread title={"title"} description={"description"} author={"author"} tags={['tags', 'go', 'here']} isHidden = {false} />
     <Thread title={test.Title} description={test.Text} author={test.PosterID} tags={['tags', 'go', 'here']} isHidden = {false} />
-    <Thread title={threadData.Title} description={threadData.Text} author={threadData.PosterID} tags={['tags', 'go', 'here']} />
+    */}
+    {threads.map((thread) => (
+        <Thread key={thread.id} title={thread.Title} description={thread.Text} author={thread.PosterID} />
+      ))}
+    
     
 
     {/* Threads will be populated based on the storedThreads in ClassThread 
@@ -183,7 +197,7 @@ else
     */}
     
     
-    </main>
+    </div>
   );
 }
 }
