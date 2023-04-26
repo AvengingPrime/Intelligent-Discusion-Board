@@ -55,16 +55,16 @@ function HomePage() {
 }, [])
 */
 
-
-const url2 = 'http://localhost:3000/getSectionsOfStudent/0000000001' // get sections of student 1 {$userID}
+const getSectionsOfUserURL = 'http://localhost:3000/getSectionsOfStudent/0000000001' // get sections of student 1 {$userID}
 const [threads, setThreads] = useState([]);
 const [sectionidarray, setsectionidarray] = useState([]);
 const [currentStateValue, setcurrentStateValue] = useState([]);
 const [classThread, setclassThread] = useState([]);
+const [currentThread, setCurrentThread] = useState([]);
 
 // grabs the sections from userID
 useEffect(() => {
-  axios.get(url2)
+  axios.get(getSectionsOfUserURL)
 .then(response => {
   console.log("the response is ")
   console.log(response.data)
@@ -106,16 +106,16 @@ console.log(currentStateValue)
 const currentSection = currentStateValue//[0].SectionID //sectionidarray[0]['SectionID']
 console.log(" current section is ")
 console.log(currentSection)
-const url = `http://localhost:3000/getThreadForSection/`
-const url3 = `http://localhost:3000/getSection/`
-console.log(url + JSON.stringify(currentStateValue).substring(1,11))
-console.log(url3 + JSON.stringify(currentStateValue).substring(1,11))
+const getThreadsForSectionUrl = `http://localhost:3000/getThreadForSection/`
+const getSectionUrl = `http://localhost:3000/getSection/`
+console.log(getThreadsForSectionUrl + JSON.stringify(currentStateValue).substring(1,11))
+console.log(getSectionUrl + JSON.stringify(currentStateValue).substring(1,11))
 
 console.log("classThread is this : ")
 console.log(classThread)
 // grabs threads from sectionID class thread useEffect
 useEffect(() => {
-axios.get(url + JSON.stringify(currentStateValue).substring(1,11))
+axios.get(getThreadsForSectionUrl + JSON.stringify(currentStateValue).substring(1,11))
 .then(response => {
   console.log(response)
  setThreads(response.data);
@@ -145,7 +145,7 @@ axios.get(url + JSON.stringify(currentStateValue).substring(1,11))
 
 // fetch class thread values
 useEffect(() => {
-  axios.get(url3 + JSON.stringify(currentStateValue).substring(1,11))
+  axios.get(getSectionUrl + JSON.stringify(currentStateValue).substring(1,11))
   .then(response => {
     console.log(" getsection got this : ")
     console.log(response.data)
@@ -174,6 +174,34 @@ useEffect(() => {
     }
   });
 }, [currentStateValue])
+
+useEffect(() => {
+  axios.get(getRepliesUrl)
+  .then(response => {
+   setReplies(response.data);
+  })
+  .catch((err) => {
+    // handling error
+    if (err.response) {
+      // Request made and server responded
+  
+      const { status, config } = err.response;
+  
+      if (status === 404) {
+        console.log(`${config.url} not found`);
+      }
+      if (status === 500) {
+        console.log("Server error");
+      }
+    } else if (err.request) {
+      // Request made but no response from server
+      console.log("Error", err.message);
+    } else {
+      // some other errors
+      console.log("Error", err.message);
+    }
+  });
+  }, [currentThread])
 
 console.log('Data found was : ', threads);
 
