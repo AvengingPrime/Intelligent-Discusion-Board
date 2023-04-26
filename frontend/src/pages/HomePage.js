@@ -9,7 +9,9 @@ import Create from "./Create";
 import '../styles/HomePage.css'
 
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { createContext, useState, useEffect } from "react";
+
+export const currentSectionContext = createContext();
 
 /*
   
@@ -23,6 +25,7 @@ import { useState, useEffect } from "react";
 */
 
 function HomePage() {
+  
  const isAdmin = false;
   /*
   const [threadList, setThreadList] = useState([]);
@@ -53,28 +56,66 @@ function HomePage() {
 */
 
 
-
-const test = {
-  Title: "this is test",
-  Text:  "this is test text",
-  PosterID: "this is test posterID"
-};
-
-const url = 'http://localhost:3000/getThreadForSection/0000000001'
+const url2 = 'http://localhost:3000/getSectionsOfStudent/0000000001' // get sections of student 1 {$userID}
 const [threads, setThreads] = useState([]);
+const [sectionidarray, setsectionidarray] = useState([]);
+const [currentStateValue, setcurrentStateValue] = useState([]);
+const [classThread, setclassThread] = useState([]);
+
+// grabs the sections from userID
 useEffect(() => {
+  axios.get(url2)
+.then(response => {
+  console.log("the response is ")
+  console.log(response.data)
+  setsectionidarray(response.data)
+  setcurrentStateValue(response.data[0].SectionID);
+})
+.catch((err) => {
+  // handling error
+  if (err.response) {
+    // Request made and server responded
 
-/*
-async function fetchData() {
-  const response = await fetch('http://10.176.67.70:3210/getThread/0000000001');
-  const json = await response.json();
-  setthreadData(json);
-}
+    const { status, config } = err.response;
 
-fetchData();
-*/
+    if (status === 404) {
+      console.log(`${config.url} not found`);
+    }
+    if (status === 500) {
+      console.log("Server error");
+    }
+  } else if (err.request) {
+    // Request made but no response from server
+    console.log("Error 3", err.message);
+  } else {
+    // some other errors
+    console.log("Error 4", err.message);
+  }
+});
+}, [])
 
-axios.get(url)
+// function handleClick(sectionid) {
+//   setcurrentStateValue(sectionid)
+// }
+//handleClick(0000000002);
+//setcurrentStateValue(sectionidarray[1].SectionID)
+console.log("sectionidarray")
+console.log(sectionidarray)
+console.log("current state value")
+console.log(currentStateValue)
+const currentSection = currentStateValue//[0].SectionID //sectionidarray[0]['SectionID']
+console.log(" current section is ")
+console.log(currentSection)
+const url = `http://localhost:3000/getThreadForSection/`
+const url3 = `http://localhost:3000/getSection/`
+console.log(url + JSON.stringify(currentStateValue).substring(1,11))
+console.log(url3 + JSON.stringify(currentStateValue).substring(1,11))
+
+console.log("classThread is this : ")
+console.log(classThread)
+// grabs threads from sectionID class thread useEffect
+useEffect(() => {
+axios.get(url + JSON.stringify(currentStateValue).substring(1,11))
 .then(response => {
   console.log(response)
  setThreads(response.data);
@@ -94,82 +135,60 @@ axios.get(url)
     }
   } else if (err.request) {
     // Request made but no response from server
-    console.log("Error", err.message);
+    console.log("Error here", err.message);
   } else {
     // some other errors
-    console.log("Error", err.message);
+    console.log("Error here 2", err.message);
   }
 });
+}, [currentStateValue])
 
-
-/*
-var responseClone;
-fetch('http://10.176.67.70:3210/getThread/0000000001')
-.then(function (response) {
-  responseClone = response.clone();
-  return response.json();
-})
-.then(console.log, function (rejectionReason) {
-  console.log('Error parsing JSON from response:', rejectionReason, responseClone);
-  responseClone.text()
-  .then(function (bodyText) {
-    console.log('Received the following instead of JSON : ', bodyText);
+// fetch class thread values
+useEffect(() => {
+  axios.get(url3 + JSON.stringify(currentStateValue).substring(1,11))
+  .then(response => {
+    console.log(" getsection got this : ")
+    console.log(response.data)
+    setclassThread(response.data)
+    
+  })
+  .catch((err) => {
+    // handling error
+    if (err.response) {
+      // Request made and server responded
+  
+      const { status, config } = err.response;
+  
+      if (status === 404) {
+        console.log(`${config.url} not found`);
+      }
+      if (status === 500) {
+        console.log("Server error");
+      }
+    } else if (err.request) {
+      // Request made but no response from server
+      console.log("Error here", err.message);
+    } else {
+      // some other errors
+      console.log("Error here 2", err.message);
+    }
   });
-})
-.catch (error => {
-  console.error("error : ", error);
-})
-*/
-
-}, [])
-//const threadArray = Object.values(threadData);
+}, [currentStateValue])
 
 console.log('Data found was : ', threads);
 
-/*
-fetch('https://jsonplaceholder.typicode.com/todos/1')
-.then(response => response.json())
-.then(data => console.log(data))
-.catch(error => console.error(error));
-*/
-  /*
-  const createThread = () => {
-    fetch("http://10.176.67.70:3210:3000/", {
-      method: "POST",
-      body: JSON.stringify({
-        Thread,
-        userID: localStorage.getItem("id"),
-      }),
-      headers: {}
-      })
-    }),
-  }
-  */
-
-  /*
-  const [query, setQuery] = useState("");
-  */
-
-if (isAdmin) {
-  return (
-    <main>
-    <Taskbar />
-    <Dashboard />
-    <Search />
-    <ClassThread />
-    {/*<Thread title={threadData.Title} description={threadData.Text} author={threadData.PosterID} tags={['tags', 'go', 'here']} isHidden = {false} />*/}
-    </main>
-  )
-}
-
-else
-{
   return (
     <div>
+    <currentSectionContext.Provider value ={{currentStateValue, setcurrentStateValue}} >
     <Taskbar />
-    <Dashboard />
+    <Dashboard sections={sectionidarray}/>
     <Search />
-    <ClassThread />
+    {/* {classThread.map((item) => (
+      <ClassThread key = {item.id} coursename={item.CourseName} coursenumber={item.CourseNumber}
+      description={item.Description} professorname={item.Professor}/>
+    ))} */}
+    <ClassThread coursename={classThread.CourseName} coursenumber={classThread.CourseNumber}
+    description={classThread.Description} professorname={classThread.Professor}/>
     {/*
     {threadArray.map(thread => (
       <Thread key = {thread.threadID} data={thread} />
@@ -177,9 +196,12 @@ else
     <Thread title={"title"} description={"description"} author={"author"} tags={['tags', 'go', 'here']} isHidden = {false} />
     <Thread title={test.Title} description={test.Text} author={test.PosterID} tags={['tags', 'go', 'here']} isHidden = {false} />
     */}
+
+    
     {threads.map((thread) => (
         <Thread key={thread.id} title={thread.Title} description={thread.Text} author={thread.PosterID} />
       ))}
+   
     
     
 
@@ -196,9 +218,9 @@ else
       </div>
     */}
     
-    
+    </currentSectionContext.Provider>
     </div>
   );
 }
-}
+
 export default HomePage;

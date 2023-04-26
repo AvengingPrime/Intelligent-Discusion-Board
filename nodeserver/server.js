@@ -42,6 +42,20 @@ app.get('/getReply/:replyID', (req, res) => {
     });
 });
 
+app.get('/getSection/:sectionID', (req, res) => {
+    const sectionID = req.params.sectionID;
+    apicalls.getSection(sectionID, (err, reply) => {
+        if (err) {
+            res.status(500).send('Error fetching section');
+        } else {
+            if (reply != null)
+                res.send(JSON.parse(JSON.stringify(reply)));
+            else
+                res.status(404).send('Error reply not found');
+        }
+    });
+});
+
 app.get('/getThread/:threadID', (req, res) => {
     const threadID = req.params.threadID;
     apicalls.getThread(threadID, (err, thread) => {
@@ -58,6 +72,8 @@ app.get('/getThread/:threadID', (req, res) => {
         }
     });
 });
+
+
 
 app.get('/getUser/:userID', (req, res) => {
     const userID = req.params.userID;

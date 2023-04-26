@@ -4,7 +4,7 @@ import {Link } from "react-router-dom";
 import {axios} from "axios";
 import { useEffect, useState } from "react";
 
-const ClassThread = () => {
+const ClassThread = ({coursenumber, coursename, description, professorname}) => {
 /*
     const [courses, setCourse] = useState([]);
     url = "http://localhost:3000/getSection/0000000001"
@@ -38,8 +38,8 @@ const ClassThread = () => {
     */
     return (
         <div className="ClassThreadCard">
-            <h1 className= "ClassThreadTitle">CS4375 - Machine Learning - Professor 0000000005</h1>
-            <body>ML Course</body>
+            <h1 className= "ClassThreadTitle">{coursenumber} - {coursename} - {professorname}</h1>
+            <body>{description}</body>
             {/*}
             <h1 className= "ClassThreadTitle">{CourseNumber} - {CourseName} - Professor {ProfessorID}</h1>
             <body>{Description}</body>

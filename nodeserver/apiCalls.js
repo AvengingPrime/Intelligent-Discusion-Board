@@ -364,7 +364,16 @@ function insertSection(sectionID, userID, courseName, courseNumber, courseType, 
         console.log(`New Section added with id: ${results.insertId}`);
     });
 }
-
+// getSection
+function getSection(sectionID, callback) {
+    connection.query('SELECT S.CourseName, S.CourseNumber, S.Description, U.Username AS Professor FROM SECTION AS S, USER AS U WHERE SectionID = ?  AND U.UserID = S.ProfessorID', [sectionID], function (error, results, fields) {
+        if (error) {
+            callback(error);
+        } else {
+            callback(null, results[0]);
+        }
+    });
+}
 //Gets Students in a section
 function getStudentsInSection(sectionID, callback) {
     const sql = `SELECT UserID FROM Section_Users WHERE SectionID = ${mysql.escape(sectionID)}`;
@@ -378,7 +387,9 @@ function getStudentsInSection(sectionID, callback) {
 }
 
 function getSectionsOfStudent(userID, callback) {
-    const sql = `SELECT SectionID FROM SECTION_USERS WHERE UserID = ${mysql.escape(userID)}`;
+    const sql = `SELECT s.CourseName, s.CourseNumber, s.SectionID
+                FROM SECTION as s, SECTION_USERS as u
+                WHERE UserID = ${mysql.escape(userID)} and s.SectionID = u.SectionID`;
     connection.query(sql, (error, results) => {
         if (error) {
             callback(error);
@@ -387,6 +398,17 @@ function getSectionsOfStudent(userID, callback) {
         }
     });
 }
+
+// function getSectionsOfStudent(userID, callback) {
+//     const sql = `SELECT SectionID FROM SECTION_USERS WHERE UserID = ${mysql.escape(userID)}`;
+//     connection.query(sql, (error, results) => {
+//         if (error) {
+//             callback(error);
+//         } else {
+//             callback(null, results);
+//         }
+//     });
+// }
 
 /*Deletes a section from the section table
    @param sectionID the primary key of the section being deleted
@@ -526,6 +548,7 @@ module.exports = {
     getUser: getUser,
     getThreadForSection: getThreadForSection,
     getThreadReplies: getThreadReplies,
+    getSection: getSection,
     getSectionsOfStudent: getSectionsOfStudent
 };
 
