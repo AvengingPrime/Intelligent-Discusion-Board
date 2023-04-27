@@ -10,7 +10,7 @@ const DashboardButton = ({name, coursenumber, sectionid}) => {
 
     function handleClick() {
         setcurrentStateValue(sectionid);
-        setCurrentThread("0000000000");
+        setCurrentThread({'ThreadID' : "0000000000", 'Title' : "NULL", 'Text' : "NULL", 'Username' : "NULL"});
         console.log("Dashboard Button")
         console.log(currentStateValue)
     }

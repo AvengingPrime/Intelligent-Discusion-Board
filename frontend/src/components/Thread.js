@@ -54,7 +54,7 @@ const {currentStateValue, setcurrentStateValue, currentThread, setCurrentThread}
       console.log("currentThread vals")
       console.log(currentThread)
       console.log(threadid)
-      setCurrentThread(threadid)
+      setCurrentThread({'ThreadID' : threadid, 'Title' : title, 'Text' : description, 'Username' : author})
       console.log(currentThread)
     }
 

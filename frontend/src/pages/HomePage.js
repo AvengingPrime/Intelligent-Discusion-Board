@@ -61,7 +61,7 @@ const [threads, setThreads] = useState([]);
 const [sectionidarray, setsectionidarray] = useState([]);
 const [currentStateValue, setcurrentStateValue] = useState("0000000000");
 const [classThread, setclassThread] = useState([]);
-const [currentThread, setCurrentThread] = useState("0000000000");
+const [currentThread, setCurrentThread] = useState({'ThreadID' : "0000000000", 'Title' : "NULL", 'Text' : "NULL", 'Username' : "NULL"});
 const [replies, setReplies] = useState([]);
 
 
@@ -236,13 +236,13 @@ console.log('Data found was : ', threads);
         <ClassThread coursename={classThread.CourseName} coursenumber={classThread.CourseNumber}
         description={classThread.Description} professorname={classThread.Professor}/>   
         
-        {currentThread == "0000000000" &&
+        {currentThread.ThreadID == "0000000000" &&
           threads.map((thread) => (
             <Thread key={thread.id} threadid={thread.ThreadID} title={thread.Title} description={thread.Text} author={thread.Username} />
           ))}
         
         {
-          currentThread != "0000000000" && 
+          currentThread.ThreadID != "0000000000" && 
             <Replies replies={replies} thread={currentThread}/>
         }    
       </currentHomepageContext.Provider>

@@ -11,21 +11,19 @@ import '../styles/Replies.css'
 // consider putting args in function Replies(____ , ____) 
 function Replies(thread, replies) {
 
-  console.log("REPLIES HERE")
+  console.log("REPLIES/THREADS HERE")
   console.log(replies)
+  console.log(thread)
 
 //url = getURL();
   return (
-
-  
-
     <div className="container">
     {/* Threads will be populated based on the storedThreads in ClassThread */}
     {/* <Taskbar/>
     <Search/> */}
-    <Thread title={thread.Title} description={thread.Text} author={thread.Username} tags={['tags', 'go', 'here']} />
-    {replies != [] && 
-      replies.map((reply) => (
+    <Thread title={thread.thread.Title} description={thread.thread.Text} author={thread.thread.Username} tags={['tags', 'go', 'here']} />
+    {thread.replies != [] && 
+      thread.replies.map((reply) => (
       <Reply key={reply.id} author={reply.PosterID} description={reply.Text} />
     ))}
     </div>
