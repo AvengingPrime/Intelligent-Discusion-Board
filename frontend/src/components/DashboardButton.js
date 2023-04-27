@@ -1,15 +1,18 @@
 import React from "react";
 import '../styles/DashboardButton.css';
 import { useContext } from "react";
-import {currentSectionContext} from "../pages/HomePage";
+import {currentHomepageContext} from "../pages/HomePage";
 
 
 
 const DashboardButton = ({name, coursenumber, sectionid}) => {
-    const {currentStateValue, setcurrentStateValue} = useContext(currentSectionContext)
+    const {currentStateValue, setcurrentStateValue, currentThread, setCurrentThread} = useContext(currentHomepageContext)
 
     function handleClick() {
-        setcurrentStateValue(sectionid)
+        setcurrentStateValue(sectionid);
+        setCurrentThread("0000000000");
+        console.log("Dashboard Button")
+        console.log(currentStateValue)
     }
 
     return (

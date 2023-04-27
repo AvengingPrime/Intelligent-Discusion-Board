@@ -5,6 +5,7 @@ import { ReactDOM } from "react";
 import {Link } from "react-router-dom";
 import { AdminContext } from "../App";
 import {axios} from "axios";
+import { currentHomepageContext } from "../pages/HomePage";
 
 /*
 function handleThreadClick(ThreadID) {
@@ -37,31 +38,31 @@ function handleThreadClick(ThreadID) {
      });
   }
 */
-const Thread = ({id, title, description, author, tags, isHidden}) => {
+const Thread = ({id, threadid, title, description, author, tags, isHidden}) => {
 //function Thread(props) {
 //const Thread = ({threadData}) => {
 //const [details, setDetails] = useState([]);
 //const tagsList = tags.join(', ');
 const tagsList = ['']
-const hidden = isHidden;
-const {isAdmin} = useContext(AdminContext);
-/*
-    useEffect(() => {
-        setDetails(threadData.items)
-    })
-*/   
-    if (hidden) {
-        return <div>
-            this thread is now hidden
-        </div>;
+// const hidden = isHidden;
+// const {isAdmin} = useContext(AdminContext);
+
+
+const {currentStateValue, setcurrentStateValue, currentThread, setCurrentThread} = useContext(currentHomepageContext)
+    function handleClick()
+    {
+      console.log("currentThread vals")
+      console.log(currentThread)
+      console.log(threadid)
+      setCurrentThread(threadid)
+      console.log(currentThread)
     }
 
-    else {
-    return(
+    return (
     <div>
-        <Link to = '/:id/replies'>
-        <button className="threadCard" >
-        {isAdmin && <button className = "hideThread"><i class="gg-eye"></i></button>}
+        {/* <Link to = '/:id/replies'> */}
+        <button className="threadCard" onClick={handleClick}>
+        {/* {isAdmin && <button className = "hideThread"><i class="gg-eye"></i></button>} */}
             <h1 className= "threadTitle">{title}</h1>
             <p className = "threadBody">
             {description} <br /> <br />
@@ -80,11 +81,11 @@ const {isAdmin} = useContext(AdminContext);
             
             
             </button>
-        </Link>
+        {/* </Link> */}
         
         
     </div>
     )
 }
-}
+// }
 export default Thread;

@@ -6,12 +6,13 @@ import ClassThread from "../components/ClassThread"
 import Search from "../components/Search"
 import Vote from "../components/Vote"
 import Create from "./Create";
+import Replies from "./Replies.js"
 import '../styles/HomePage.css'
 
 import axios from "axios";
 import { createContext, useState, useEffect } from "react";
 
-export const currentSectionContext = createContext();
+export const currentHomepageContext = createContext();
 
 /*
   
@@ -58,19 +59,23 @@ function HomePage() {
 const getSectionsOfUserURL = 'http://localhost:3000/getSectionsOfStudent/0000000001' // get sections of student 1 {$userID}
 const [threads, setThreads] = useState([]);
 const [sectionidarray, setsectionidarray] = useState([]);
-const [currentStateValue, setcurrentStateValue] = useState([]);
+const [currentStateValue, setcurrentStateValue] = useState("0000000000");
 const [classThread, setclassThread] = useState([]);
-const [currentThread, setCurrentThread] = useState([]);
+const [currentThread, setCurrentThread] = useState("0000000000");
 const [replies, setReplies] = useState([]);
+
 
 // grabs the sections from userID
 useEffect(() => {
   axios.get(getSectionsOfUserURL)
 .then(response => {
-  console.log("the response is ")
-  console.log(response.data)
-  setsectionidarray(response.data)
-  setcurrentStateValue(response.data[0].SectionID);
+  const tempData = response.data
+  console.log("the first response is ")
+  console.log(tempData[0].SectionID)
+  // console.log(tempData[1])
+  setcurrentStateValue(tempData[0].SectionID)
+  console.log(currentStateValue)
+  setsectionidarray(tempData)
 })
 .catch((err) => {
   // handling error
@@ -100,30 +105,33 @@ useEffect(() => {
 // }
 //handleClick(0000000002);
 //setcurrentStateValue(sectionidarray[1].SectionID)
-console.log("sectionidarray")
-console.log(sectionidarray)
-console.log("current state value")
-console.log(currentStateValue)
+// console.log("sectionidarray")
+// console.log(sectionidarray)
+// console.log("current state value")
+// console.log(currentStateValue)
 const currentSection = currentStateValue//[0].SectionID //sectionidarray[0]['SectionID']
-console.log(" current section is ")
-console.log(currentSection)
+// console.log(" current section is ")
+// console.log(currentSection)
 const getThreadsForSectionUrl = `http://localhost:3000/getThreadForSection/`
 const getSectionUrl = `http://localhost:3000/getSection/`
-console.log(getThreadsForSectionUrl + JSON.stringify(currentStateValue).substring(1,11))
-console.log(getSectionUrl + JSON.stringify(currentStateValue).substring(1,11))
+// console.log(getThreadsForSectionUrl + JSON.stringify(currentStateValue).substring(1,11))
+// console.log(getSectionUrl + JSON.stringify(currentStateValue).substring(1,11))
+// console.log("1st use effect current state val")
+// console.log(sectionidarray);
 
-console.log("classThread is this : ")
-console.log(classThread)
+// console.log("classThread is this : ")
+// console.log(classThread)
 // grabs threads from sectionID class thread useEffect
 useEffect(() => {
 axios.get(getThreadsForSectionUrl + JSON.stringify(currentStateValue).substring(1,11))
 .then(response => {
   console.log("Threads here")
   console.log(response)
+  console.log(getThreadsForSectionUrl + JSON.stringify(currentStateValue))
   setThreads(response.data);
-  setCurrentThread(response.data[0])
-  console.log("Current Thread is")
-  console.log(currentThread)
+  // setCurrentThread(response.data[0])
+  // console.log("Current Thread is")
+  // console.log(currentThread)
 })
 .catch((err) => {
   // handling error
@@ -151,6 +159,7 @@ axios.get(getThreadsForSectionUrl + JSON.stringify(currentStateValue).substring(
 // fetch class thread values
 useEffect(() => {
   axios.get(getSectionUrl + JSON.stringify(currentStateValue).substring(1,11))
+  // axios.get(getSectionUrl + "0000000001")
   .then(response => {
     console.log(" getsection got this : ")
     console.log(response.data)
@@ -182,9 +191,15 @@ useEffect(() => {
 const getRepliesUrl = 'http://localhost:3000/getThreadReplies/'
 
 useEffect(() => {
-  axios.get(getRepliesUrl + JSON.stringify(currentThread.ThreadID).substring(1,11))
+  console.log("Replies URL Current Thread")
+  console.log((currentThread.ThreadID))
+
+  // axios.get(getRepliesUrl + JSON.stringify(currentThread.ThreadID).substring(1,11))
+  axios.get(getRepliesUrl + currentThread.ThreadID)
   .then(response => {
    setReplies(response.data);
+   console.log("REPLIES HERE 1.0")
+   console.log(response.data)
   })
   .catch((err) => {
     // handling error
@@ -207,39 +222,37 @@ useEffect(() => {
       console.log("Error", err.message);
     }
   });
-  }, [currentThread])
+}, [currentThread])
 
 console.log('Data found was : ', threads);
 
   return (
     <div>
-    <currentSectionContext.Provider value ={{currentStateValue, setcurrentStateValue}} >
-    <Taskbar />
-    <Dashboard sections={sectionidarray}/>
-    <Search />
-    {/* {classThread.map((item) => (
-      <ClassThread key = {item.id} coursename={item.CourseName} coursenumber={item.CourseNumber}
-      description={item.Description} professorname={item.Professor}/>
-    ))} */}
-    <ClassThread coursename={classThread.CourseName} coursenumber={classThread.CourseNumber}
-    description={classThread.Description} professorname={classThread.Professor}/>
-    {/*
-    {threadArray.map(thread => (
-      <Thread key = {thread.threadID} data={thread} />
-    ))}
-    <Thread title={"title"} description={"description"} author={"author"} tags={['tags', 'go', 'here']} isHidden = {false} />
-    <Thread title={test.Title} description={test.Text} author={test.PosterID} tags={['tags', 'go', 'here']} isHidden = {false} />
-    */}
+      <currentHomepageContext.Provider value ={{currentStateValue, setcurrentStateValue, currentThread, setCurrentThread}} >
+        <Taskbar />
+        <Dashboard sections={sectionidarray}/>
+        <Search />
+        
+        <ClassThread coursename={classThread.CourseName} coursenumber={classThread.CourseNumber}
+        description={classThread.Description} professorname={classThread.Professor}/>   
+        
+        {currentThread == "0000000000" &&
+          threads.map((thread) => (
+            <Thread key={thread.id} threadid={thread.ThreadID} title={thread.Title} description={thread.Text} author={thread.Username} />
+          ))}
+        
+        {
+          currentThread != "0000000000" && 
+            <Replies replies={replies} thread={currentThread}/>
+        }    
+      </currentHomepageContext.Provider>
+    </div>
+  );
+}
 
-    
-    {threads.map((thread) => (
-        <Thread key={thread.id} title={thread.Title} description={thread.Text} author={thread.PosterID} />
-      ))}
-   
-    
-    
+export default HomePage;
 
-    {/* Threads will be populated based on the storedThreads in ClassThread 
+{/* Threads will be populated based on the storedThreads in ClassThread 
       <div className="container">
         {threadList.map((Thread) => (
           <div className = "threadInstance" key = {Thread.id}>
@@ -251,10 +264,10 @@ console.log('Data found was : ', threads);
         ))}
       </div>
     */}
-    
-    </currentSectionContext.Provider>
-    </div>
-  );
-}
-
-export default HomePage;
+    {/*
+    {threadArray.map(thread => (
+      <Thread key = {thread.threadID} data={thread} />
+    ))}
+    <Thread title={"title"} description={"description"} author={"author"} tags={['tags', 'go', 'here']} isHidden = {false} />
+    <Thread title={test.Title} description={test.Text} author={test.PosterID} tags={['tags', 'go', 'here']} isHidden = {false} />
+    */} 

@@ -293,9 +293,6 @@ function hasVotedToReply(userID, replyID, callback) {
     });
 }
 
-
-
-
 /*Recursively finds all replies that belong to a given threadID in reply table
  *@param threadID is the ID of the thread your looking at
  *@param callback on success will be the data from query your looking for ON FAILURE it is NULL
@@ -329,7 +326,7 @@ async function getThread(threadID, callback) {
 
 
 async function getThreadForSection(sectionID, callback) {
-    connection.query('SELECT * FROM THREAD as T, USER as U WHERE T.ClassID = ? and T.posterID = U.userID', [sectionID], function (error, results, fields) {
+    connection.query('SELECT T.*, Username FROM THREAD as T, USER as U WHERE T.ClassID = ? and T.posterID = U.userID', [sectionID], function (error, results, fields) {
         if (error) {
             callback(error);
         } else {
