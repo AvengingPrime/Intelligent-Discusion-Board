@@ -56,7 +56,7 @@ const Reply = ({replyid, author, description, upvotes}) => {
 
             {replies != [] &&
                 replies.map((reply) => (
-                <Reply key={reply.id} replyid={reply.replyID} author={reply.Username} description={reply.Text} upvotes={reply.Upvotes} />
+                <Reply key={reply.id} replyid={reply.ReplyID} author={reply.Username} description={reply.Text} upvotes={reply.Upvotes} />
             ))}
 
             <Vote count ={upvotes} />
