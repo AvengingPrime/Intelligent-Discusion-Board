@@ -301,7 +301,7 @@ function hasVotedToReply(userID, replyID, callback) {
 function getThreadReplies(threadID, callback) {
     //Recursively find the replies that have a reply id to a thread id and replies that have a reply id to a reply id
     //to a thread id and so forth
-    connection.query('SELECT * FROM REPLY WHERE ThreadID = ?', [threadID], function (error, results, fields) {
+    connection.query('SELECT R.*, U.Username FROM REPLY as R, USER as U WHERE R.ThreadID = ? and R.PosterID = U.UserID', [threadID], function (error, results, fields) {
         if (error) {
             callback(error);
         } else {
@@ -309,6 +309,29 @@ function getThreadReplies(threadID, callback) {
         }
     });
 }
+
+function getTopLevelReplies(threadID, callback)
+{
+    connection.query('SELECT R.*, U.Username FROM REPLY as R, USER as U WHERE R.ThreadID = ? and R.ReplyToID = "NULL" and R.PosterID = U.UserID', [threadID], function (error, results, fields) {
+        if (error) {
+            callback(error);
+        } else {
+            callback(null, results);
+        }
+    });
+}
+
+function getSubReplies(replyID, callback)
+{
+    connection.query('SELECT R.*, U.Username FROM REPLY as R, USER as U WHERE R.ReplyToID = ? and R.PosterID = U.UserID', [replyID], function (error, results, fields) {
+        if (error) {
+            callback(error);
+        } else {
+            callback(null, results);
+        }
+    });
+}
+
 
 /* gets a thread given the threadID
  *@param threadID the the ID of the thread you want to get
@@ -545,6 +568,8 @@ module.exports = {
     getUser: getUser,
     getThreadForSection: getThreadForSection,
     getThreadReplies: getThreadReplies,
+    getTopLevelReplies: getTopLevelReplies,
+    getSubReplies, getSubReplies,
     getSection: getSection,
     getSectionsOfStudent: getSectionsOfStudent
 };

@@ -12,7 +12,7 @@ import '../styles/Replies.css'
 function Replies(thread, replies) {
 
   console.log("REPLIES/THREADS HERE")
-  console.log(replies)
+  // console.log(replies)
   console.log(thread)
 
 //url = getURL();
@@ -24,7 +24,7 @@ function Replies(thread, replies) {
     <Thread title={thread.thread.Title} description={thread.thread.Text} author={thread.thread.Username} tags={['tags', 'go', 'here']} />
     {thread.replies != [] && 
       thread.replies.map((reply) => (
-      <Reply key={reply.id} author={reply.PosterID} description={reply.Text} />
+      <Reply key={reply.id} replyid={reply.ReplyID} author={reply.Username} description={reply.Text} upvotes={reply.Upvotes} />
     ))}
     </div>
   );

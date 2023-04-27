@@ -134,6 +134,36 @@ app.get('/getThreadReplies/:threadID', (req, res) => {
     });
 });
 
+app.get('/getTopLevelReplies/:threadID', (req, res) => {
+    const threadID = req.params.threadID;
+    apicalls.getTopLevelReplies(threadID, (err, thread) => {
+        if (err) {
+            res.status(500).send('Error fetching reply');
+        }
+        else {
+            if (thread != null)
+                res.send(thread);
+            else
+                res.status(404).send('Error thread replies not found');
+        }
+    });
+});
+
+app.get('/getSubReplies/:replyID', (req, res) => {
+    const replyID = req.params.replyID;
+    apicalls.getSubReplies(replyID, (err, thread) => {
+        if (err) {
+            res.status(500).send('Error fetching reply');
+        }
+        else {
+            if (thread != null)
+                res.send(thread);
+            else
+                res.status(404).send('Error thread replies not found');
+        }
+    });
+});
+
 app.get('/test', (req, res) => {
     res.send('This is an empty endpoint!');
 });

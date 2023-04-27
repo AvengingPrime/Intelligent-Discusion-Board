@@ -188,11 +188,11 @@ useEffect(() => {
   });
 }, [currentStateValue])
 
-const getRepliesUrl = 'http://localhost:3000/getThreadReplies/'
+const getRepliesUrl = 'http://localhost:3000/getTopLevelReplies/'
 
 useEffect(() => {
   console.log("Replies URL Current Thread")
-  console.log((currentThread.ThreadID))
+  console.log((currentThread))
 
   // axios.get(getRepliesUrl + JSON.stringify(currentThread.ThreadID).substring(1,11))
   axios.get(getRepliesUrl + currentThread.ThreadID)

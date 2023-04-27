@@ -6,7 +6,7 @@ class Vote extends React.Component {
     constructor(props){
         super(props)
         this.state = {
-            count: 0, // count here should be pulled from database from replyID and incremented accordingly
+            count: props.count, // count here should be pulled from database from replyID and incremented accordingly
             addend: 0
         }
     }
