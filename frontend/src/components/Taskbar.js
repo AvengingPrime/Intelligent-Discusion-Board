@@ -25,7 +25,7 @@ const {isAdmin} = useContext(AdminContext);
                         Profile
                     </button>
                 </Link>
-                <Link to ='/createThread' className = "functionButton" >
+                <Link to ='/Form' className = "functionButton" >
                     <button>
                         Ask a Question
                     </button>
