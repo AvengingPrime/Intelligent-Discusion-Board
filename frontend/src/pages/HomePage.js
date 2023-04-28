@@ -197,7 +197,15 @@ useEffect(() => {
   // axios.get(getRepliesUrl + JSON.stringify(currentThread.ThreadID).substring(1,11))
   axios.get(getRepliesUrl + currentThread.ThreadID)
   .then(response => {
-   setReplies(response.data);
+   if (currentThread.ThreadID == "0000000000")
+   {
+    setReplies([]);
+   }
+   else
+   {
+    setReplies(response.data)
+   }
+   
    console.log("REPLIES HERE 1.0")
    console.log(response.data)
   })
@@ -228,7 +236,7 @@ console.log('Data found was : ', threads);
 
   return (
     <div>
-      <currentHomepageContext.Provider value ={{currentStateValue, setcurrentStateValue, currentThread, setCurrentThread}} >
+      <currentHomepageContext.Provider value ={{currentStateValue, setcurrentStateValue, currentThread, setCurrentThread, setReplies}} >
         <Taskbar />
         <Dashboard sections={sectionidarray}/>
         <Search />

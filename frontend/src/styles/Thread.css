@@ -1,7 +1,7 @@
 @import url('https://unpkg.com/css.gg@2.0.0/icons/css/eye.css');
 
 
-body {
+/* .threadBody {
     position: relative;
     
     left: 5px;
@@ -11,21 +11,20 @@ body {
     line-height: 14px;
     letter-spacing: 0.05em;
     text-align: left;
-    
-
-}
-
-
+} */
 
 button.threadCard {
-    float: right;
-    width: 86vw;
-    height: 120px;
+    position: relative;
+    /* float: right; */
+    width: 83vw;
+    /* height: 120px; */
+    height: 14vh;
+    max-height: max-content;
     background: rgba(181, 134, 78, 0.26);
-    border-radius: 10px 0px 0px 10px;
+    border-radius: 10px 10px 10px 10px;
     margin-top: 10px;
     margin-bottom: 10px;
-    margin-left: 10px;
+    margin-left: 15vw;
     text-align: left;
 
     cursor: pointer;
@@ -57,10 +56,11 @@ button.hideThread {
 }
 
 ul.threadTags {
+    position: relative;
     display: flex;
     flex-direction: row;
-    position: relative;
-    bottom: -10px;
+    /* position: relative; */
+    margin-bottom: 1vh;
 }
 
 .vote {
@@ -115,9 +115,8 @@ h1.threadTitle {
     
 }
 
-h4 {
+/* h4 {
     position: relative;
     left: 5px;
     top: -35px;
-}
-
+} */

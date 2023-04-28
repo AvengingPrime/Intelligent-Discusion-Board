@@ -24,7 +24,7 @@ function Replies(thread, replies) {
     <Thread title={thread.thread.Title} description={thread.thread.Text} author={thread.thread.Username} tags={['tags', 'go', 'here']} />
     {thread.replies != [] && 
       thread.replies.map((reply) => (
-      <Reply key={reply.id} replyid={reply.ReplyID} author={reply.Username} description={reply.Text} upvotes={reply.Upvotes} />
+      <Reply key={reply.id} replyid={reply.ReplyID} author={reply.Username} description={reply.Text} upvotes={reply.Upvotes} nested={false} />
     ))}
     </div>
   );

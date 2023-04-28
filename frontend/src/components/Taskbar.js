@@ -39,7 +39,7 @@ const {isAdmin} = useContext(AdminContext);
                     }
                 </Link>
                     
-                <img src={logo} alt= "The University of Texas at Dallas" />
+                <img className = "logo" src={logo} alt= "The University of Texas at Dallas" />
                 </div>
                 
             </div>

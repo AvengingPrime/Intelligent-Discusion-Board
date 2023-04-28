@@ -14,7 +14,7 @@
     height:min-content 20px;
 }
 
-p {
+.voteP {
     position: relative;
     top: 35px;
     color: #8F5B0D;
@@ -24,7 +24,7 @@ p {
     letter-spacing: 0.05em;
 }
 
-button {
+voteButton {
     position: relative;
     top: 30px;
     margin: 1px;
@@ -46,6 +46,6 @@ button {
     
 }
 
-p {
+/* p {
     font-size: 28px;
-}
+} */

@@ -39,7 +39,7 @@ const ClassThread = ({coursenumber, coursename, description, professorname}) => 
     return (
         <div className="ClassThreadCard">
             <h1 className= "ClassThreadTitle">{coursenumber} - {coursename} - {professorname}</h1>
-            <body>{description}</body>
+            <body className = "ClassThreadDescription">{description}</body>
             {/*}
             <h1 className= "ClassThreadTitle">{CourseNumber} - {CourseName} - Professor {ProfessorID}</h1>
             <body>{Description}</body>

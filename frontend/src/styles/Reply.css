@@ -1,4 +1,4 @@
-body {
+.replyBody {
     left: 7px;
     font-family: Karla;
     font-size: 12px;
@@ -6,23 +6,52 @@ body {
     line-height: 14px;
     letter-spacing: 0.05em;
     text-align: left;
-    
-
 }
 
-button.replyCard {
+.replyCard{
+    /* position:relative; */
     float: right;
-    width: 86vw;
-    height: 120px;
+    /* min-width: 83vw; */
+    /* max-width: max-content; */
+    width: 83vw;
+    /* max-width: max; */
+    /* height: 15vh; */
+    max-height: max-content;
     
-    border-radius: 10px 0px 0px 10px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    margin-left: 10px;
+    border-radius: 10px 10px 10px 10px;
+    /* margin-right: 10vw; */
+    margin-top: 1vh;
+    margin-bottom: 2vh;
+    /* left: -10vw; */
+    /* margin-left: 10vw; */
+    padding-top: 1vh;
+    padding-bottom: 1vh;
     text-align: left;
 
     cursor: pointer;
+}
+
+.replyCard2 {
+    position:relative;
+    /* float: left; */
+    /* min-width: 83vw; */
+    min-width: 50vw;
+    max-width: max-content;
+    /* width: 86vw; */
+    /* max-width: max; */
+    /* height: 15vh; */
+    max-height: max-content;
     
+    border-radius: 10px 10px 10px 10px;
+    margin-bottom: 1vh;
+    /* left: 50vw; */
+    /* margin-right: 10vw; */
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+    /* margin-left: 15vw; */
+    text-align: left;
+
+    cursor: pointer;
 }
 
 h3 {

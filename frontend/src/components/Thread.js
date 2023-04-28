@@ -48,7 +48,7 @@ const tagsList = ['']
 // const {isAdmin} = useContext(AdminContext);
 
 
-const {currentStateValue, setcurrentStateValue, currentThread, setCurrentThread} = useContext(currentHomepageContext)
+const {currentStateValue, setcurrentStateValue, currentThread, setCurrentThread, setReplies} = useContext(currentHomepageContext)
     function handleClick()
     {
       console.log("currentThread vals")
@@ -77,13 +77,8 @@ const {currentStateValue, setcurrentStateValue, currentThread, setCurrentThread}
                 </ul> */}
 
             {/* array of tags go here ^ */}
-
-            
-            
             </button>
         {/* </Link> */}
-        
-        
     </div>
     )
 }

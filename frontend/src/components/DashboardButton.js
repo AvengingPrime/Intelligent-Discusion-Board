@@ -6,13 +6,14 @@ import {currentHomepageContext} from "../pages/HomePage";
 
 
 const DashboardButton = ({name, coursenumber, sectionid}) => {
-    const {currentStateValue, setcurrentStateValue, currentThread, setCurrentThread} = useContext(currentHomepageContext)
+    const {currentStateValue, setcurrentStateValue, currentThread, setCurrentThread, setReplies} = useContext(currentHomepageContext)
 
     function handleClick() {
         setcurrentStateValue(sectionid);
         setCurrentThread({'ThreadID' : "0000000000", 'Title' : "NULL", 'Text' : "NULL", 'Username' : "NULL"});
-        console.log("Dashboard Button")
-        console.log(currentStateValue)
+        setReplies([])
+        // console.log("Dashboard Button")
+        // console.log(currentStateValue)
     }
 
     return (

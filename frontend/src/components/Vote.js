@@ -28,7 +28,7 @@ class Vote extends React.Component {
     render() {
         return (
             <body className="vote">
-                <p>{this.state.count + this.state.addend}</p>
+                <p className = "voteP">{this.state.count + this.state.addend}</p>
                 <button className = "upvote" onClick={this.toggleIncrement}>+</button>
                 {/* <button className = "downvote" onClick={this.toggleDecrement}>-</button> */}
             </body>

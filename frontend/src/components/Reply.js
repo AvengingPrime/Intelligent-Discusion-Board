@@ -6,20 +6,25 @@ import axios from 'axios';
 import Vote from "./Vote";
 import {Link } from "react-router-dom";
 
-const Reply = ({replyid, author, description, upvotes}) => {
+const Reply = ({replyid, author, description, upvotes, nested}) => {
 
     const [replies, setReplies] = useState([])
+
+    console.log('REPLY MADE 3.0')
+    console.log(replyid, author)
 
     const getSubRepliesUrl = `http://localhost:3000/getSubReplies/`
 
     useEffect(() => {
-        console.log('getSubRepliesUrl')
-        console.log(getSubRepliesUrl + replyid)
-        console.log(replyid)
+        // console.log('getSubRepliesUrl')
+        // console.log(getSubRepliesUrl + replyid)
+        // console.log(replyid)
         axios.get(getSubRepliesUrl + replyid)
         // axios.get(getSectionUrl + "0000000001")
         .then(response => {
-          console.log(" getSubReplies got this : ")
+          console.log("current thread")
+          console.log(replyid, author, description)
+          console.log("getSubReplies got this : ")
           console.log(response.data)
           setReplies(response.data)
         })
@@ -48,20 +53,58 @@ const Reply = ({replyid, author, description, upvotes}) => {
     
     return (
         <div>
-            <button className="replyCard" >
+            {/* <button className={!nested && "replyCard" || nested && "replycard2"}>
             
-            <h3 classname= "replyAuthor">{author}</h3>
+            <h3 className= "replyAuthor">{author}</h3>
 
-            <body>{description}</body>
+            <body className="replyBody">{description}</body>
 
             {replies != [] &&
                 replies.map((reply) => (
-                <Reply key={reply.id} replyid={reply.ReplyID} author={reply.Username} description={reply.Text} upvotes={reply.Upvotes} />
+                <Reply key={reply.id} replyid={reply.ReplyID} author={reply.Username} description={reply.Text} upvotes={reply.Upvotes} nested = {true}/>
             ))}
 
-            <Vote count ={upvotes} />
+            {/* <Vote count ={upvotes} /> */}
+            {/* </button> */}
+
+            {!nested &&
+              
+
+              <button className="replyCard">
+              
+              <h3 className= "replyAuthor">{author}</h3>
+  
+              <body className="replyBody">{description}</body>
+  
+              {replies != [] &&
+                  replies.map((reply) => (
+                  <Reply key={reply.id} replyid={reply.ReplyID} author={reply.Username} description={reply.Text} upvotes={reply.Upvotes} nested = {true}/>
+              ))}
+  
+              {/* <Vote count ={upvotes} /> */}
+              
+              </button>
+            }
+
+            {nested &&
+              
+
+              <button className="replyCard2">
+              
+              <h3 className= "replyAuthor">{author}</h3>
+  
+              <body className="replyBody">{description}</body>
+  
+              {replies != [] &&
+                  replies.map((reply) => (
+                  <Reply key={reply.id} replyid={reply.ReplyID} author={reply.Username} description={reply.Text} upvotes={reply.Upvotes} nested = {true}/>
+              ))}
+  
+              {/* <Vote count ={upvotes} /> */}
+              
+              </button>
+            }
             
-            </button>
         </div>
     )
 }

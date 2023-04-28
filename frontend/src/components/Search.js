@@ -8,7 +8,7 @@ const Search = () => {
     return (
         <div className="search-wrapper">
             <label htmlFor="search"></label>
-            <input type="search" id="search" data-search></input>
+            <input className = "searchInput" type="search" id="search" data-search></input>
         </div>
     );
 }

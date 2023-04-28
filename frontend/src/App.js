@@ -104,7 +104,7 @@ function App() {
         </Routes>
       </BrowserRouter>
 
-      <br/> <button onClick = {toggleAdmin}> toggle admin view </button>
+      {/* <br/> <button onClick = {toggleAdmin}> toggle admin view </button> */}
     </div>
     
   </AdminContext.Provider>
