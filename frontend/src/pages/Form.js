@@ -34,6 +34,7 @@ const ai = ()=> {
 </form>        
 </div>);
 }
+
 const Form1 = () => {
   const [aiTable,aiNew] = useState()
   const aiSubmit = event => {
