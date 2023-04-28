@@ -5,7 +5,7 @@ import { ReactDOM } from "react-dom";
 
 
 const ai = ()=> {
-  return (<div><table>
+  return (<div styles={{top:"100px"}}><table>
   <thead>
   <tr>
     <th>Post Name</th>
@@ -34,7 +34,6 @@ const ai = ()=> {
 </form>        
 </div>);
 }
-
 const Form1 = () => {
   const [aiTable,aiNew] = useState()
   const aiSubmit = event => {
@@ -46,20 +45,22 @@ const Form1 = () => {
 
   return (
     <div>
-      <div className={styles.formChild} />
-      <div className={styles.formChild} />
-      <div className={styles.courseName}>Course Name - Section Name</div>
+      
+      <div className={styles.courseName}><div className={styles.bottomDiv}><p styles={{left:"100px"}}><label>Course Name</label> <label>Section Name</label></p>
+      </div>
+      </div>
+      
       <div className={styles.formInner} />
       <div className={styles.postName}>Post Name</div>
       <div className={styles.description}>Description</div>
       
       <div className={styles.postTitleInput}>
       <form className="postTitleInput">
-        <textarea 
+        <textarea className = "postTitleInput"
           type="text"
           name="title"
           placeholder="Title"
-          style={{width:"1200px"}}
+          style={{width:"90vw"}}
         />
       </form>
        </div>      
@@ -75,44 +76,49 @@ const Form1 = () => {
           type="text" 
           name="Post Description Input"
           placeholder="Post Description"
-          style = {{width:"1200px", height:"200px", maxHeight:"260px", minWidth:"1200px"}}
+          style = {{width:"90vw", height:"200px", maxHeight:"260px"}}
         >
         </textarea>
       </form>
       </div>
+      <div className={styles.rectangleDiv}>
+      <div className={styles.bottomDiv}>
+      <input styles={styles.bottomDiv} type="file" name="attach files"  multiple/>
       
-      <div className={styles.rectangleDiv} />
-      <input type="file" name="attach files" className={styles.component1} multiple/>
       
       
       
-      <div className={styles.component4} >
       <input type="checkbox" id="switch"
                      />
         <label>
             Anonymous
         </label>
-      </div> 
+       
       
       
       
-      <div className={styles.component3}><span id="tagContainer"></span>
+      <div style = {{height:"10vw"}}>
       <input type="text" id="inputText" placeholder="tags" 
-      style = {{width:"1200px"}}/>
+      style = {{width:"90vw", left:"10"}}/>
+      <div>
+      <button style = {{left:"0px"}} 
+        onClick={aiSubmit}
+        >Submit
+        </button>
+        </div>
       </div>  
       
-     
-      <div className={styles.component2}>
+      
+      <div>
         
-        <button className={styles.component1Child}
-        onClick={aiSubmit}>Submit
-        </button>
-        <div className={styles.componentTable}>
+        
+        </div>
+      <div styles={{top:"100px"}}>
       {aiTable}
       </div>
       </div>
     </div>
-     
+     </div>
   );
 };
 
