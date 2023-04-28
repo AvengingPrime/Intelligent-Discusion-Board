@@ -9,11 +9,11 @@ const FrameComponent = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     window.location.href ='/Homepage';
-    const response = await axios.post('http://localhost:3001/login', {
+    const response = await axios.post('http://localhost:3001/FrameComponent', {
       username,
       password,
     });
-    
+    console.log(response)
   };
   return (
     <div className={styles.rectangleParent}>
@@ -33,14 +33,17 @@ const FrameComponent = () => {
         className={styles.usernameInputField}
         type="text"
         placeholder="Username"
+        outline-color="black"
         value={username}
         onChange={(event) => setUsername(event.target.value)}
       />
-      <div className={styles.passwordInputField}>
+      <div outline-color="black" border= "1px" solid ="black"
+  outline-style= "solid" className={styles.passwordInputField}>
         <input
           className={styles.usernameInputField1}
           type="password"
           placeholder="Password"
+          outline-color="black"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
         />

@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 3000;
 const IP_ADDRESS = '0.0.0.0';
 app.use(express.json());
 app.use(cors());
-app.post('/User', (req, res) => {
+app.post('/http://localhost:3001/FrameComponent', (req, res) => {
     const { username, password } = req.body;
     console.log("hello");
     connection.query(

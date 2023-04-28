@@ -28,7 +28,7 @@ const ai = ()=> {
   </tr>
   </tfoot>
 </table>
-<form>
+<form action = "/HomePage">
 <button type = "submit">Confirm Submit
         </button>
 </form>        
