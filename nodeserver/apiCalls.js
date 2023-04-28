@@ -78,6 +78,38 @@ function insertUser(userID, username, email, userType, callback) {
     });
 }
 
+function insertThread(threadID, userID, threadType, title, text) {
+    //Checks if thread with same title already exists
+    const checkDuplicatesSql = 'SELECT COUNT(*) as count FROM THREAD WHERE title = ?;'
+    const checkDuplicatesValues = [title];
+    //This is the query that runs if not
+    const currentTimestamp = new Date().toISOString().slice(0, 19).replace('T', ' ');
+    const insertThreadSql = 'INSERT INTO THREAD (threadID, userID, ,currentTimestamp ,threadType, title, text) VALUES (?, ?, ?, ?, ?)';
+    const insertThreadValues = [threadID, userID, currentTimestamp, threadType, title, text];
+    // Check if the thread with same title already exists
+    connection.query(checkDuplicatesSql, checkDuplicatesValues, (error, results, fields) => {
+        if (error) {
+            console.error(error.message);
+            return;
+        }
+
+        const count = results[0].count;
+        if (count > 0) {
+            console.log('Thread with same title already exists');
+            return;
+        }
+
+        // Insert the new thread into the database
+        connection.query(insertThreadSql, insertThreadValues, (error, results, fields) => {
+            if (error) {
+                console.error(error.message);
+                return;
+            }
+            console.log(`New Thread added with id: ${results.insertId}`);
+        });
+    });
+}
+
 /*Deletes a User from the USER table
    @param userID the primary key of the user being deleted
  */
@@ -152,36 +184,63 @@ function changeUserType(userID, newUserType, callback) {
  */
 //Note there needs to be a spin lock or MUTEX mechanism of sort that forces new threads to come in one at a time
 // so that its guaranteed every thread has a unique id
-function insertThread(threadID, userID, threadType, title, text) {
+function insertThread(sectionID, userID, threadType, title, text) {
     //Checks if thread with same title already exists
+
+    const generateNewID = 'SELECT COUNT(*) as count FROM THREAD'
+
     const checkDuplicatesSql = 'SELECT COUNT(*) as count FROM THREAD WHERE title = ?;'
     const checkDuplicatesValues = [title];
     //This is the query that runs if not
-    const currentTimestamp = new Date().toISOString().slice(0, 19).replace('T', ' ');
-    const insertThreadSql = 'INSERT INTO THREAD (threadID, userID, ,currentTimestamp ,threadType, title, text) VALUES (?, ?, ?, ?, ?)';
-    const insertThreadValues = [threadID, userID, currentTimestamp, threadType, title, text];
+    // const currentTimestamp = new Date().toISOString().slice(0, 19).replace('T', ' ');
+    const insertThreadSql = 'INSERT INTO THREAD (ThreadID, ClassID, PosterID, ThreadType, Title, Text) VALUES (?, ?, ?, ?, ?, ?)';
+    // const insertThreadValues = [threadID, userID, currentTimestamp, threadType, title, text];
     // Check if the thread with same title already exists
-    connection.query(checkDuplicatesSql, checkDuplicatesValues, (error, results, fields) => {
-        if (error) {
-            console.error(error.message);
-            return;
-        }
+    // connection.query(checkDuplicatesSql, checkDuplicatesValues, (error, results, fields) => {
+    //     if (error) {
+    //         console.error(error.message);
+    //         return;
+    //     }
 
-        const count = results[0].count;
-        if (count > 0) {
-            console.log('Thread with same title already exists');
-            return;
-        }
+    //     const count = results[0].count;
+    //     if (count > 0) {
+    //         console.log('Thread with same title already exists');
+    //         return;
+    //     }
 
-        // Insert the new thread into the database
-        connection.query(insertThreadSql, insertThreadValues, (error, results, fields) => {
-            if (error) {
-                console.error(error.message);
+        connection.query(generateNewID, [], (error2, results2, fields2) => {
+
+            if (error2) {
+                console.log("THREAD CREATING ERROR")
+                console.error(error2.message);
                 return;
             }
-            console.log(`New Thread added with id: ${results.insertId}`);
+
+            count2 = results2[0].count;
+            genThreadID = (count2 + "000000000").substring(0,10)
+
+            // genThreadID = "\"" + genThreadID + "\""
+            // sectionID = "\"" + sectionID + "\""
+            // userID = "\"" + userID + "\""
+            // threadType = "\"" + threadType + "\""
+            title = title.split('-').join(' ')
+            text = text.split('-').join(' ') 
+            
+
+            const insertThreadValues = [genThreadID, sectionID, userID, threadType, title, text];
+            
+            connection.query(insertThreadSql, insertThreadValues, (error, results, fields) => {
+                if (error) {
+                    console.log("THREAD CREATING ERROR", genThreadID, sectionID, userID, )
+                    console.error(error.message);
+                    return;
+                }
+                console.log(`New Thread added with id: ${genThreadID}`);
+            });
         });
-    });
+    
+        // Insert the new thread into the database
+    // });
 }
 
 /*Deletes a thread from the thread table
@@ -571,7 +630,8 @@ module.exports = {
     getTopLevelReplies: getTopLevelReplies,
     getSubReplies, getSubReplies,
     getSection: getSection,
-    getSectionsOfStudent: getSectionsOfStudent
+    getSectionsOfStudent: getSectionsOfStudent,
+    insertThread:insertThread,
 };
 
 

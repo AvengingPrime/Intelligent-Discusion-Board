@@ -28,6 +28,19 @@ app.post('/insertUser/:userID/:username/:email/:userType', (req, res) => {
     });
 });
 
+app.post('/insertThread/:sectionID/:userID/:threadType/:title/:text', (req, res) => {
+    const { sectionID, userID, threadType, title, text } = req.params;
+    apicalls.insertThread(sectionID, userID, threadType, title, text, (err) => {
+      if (err) {
+        console.error(err+"\n");
+        res.status(500).send(err+"\n");
+      } else {
+        res.send(JSON.parse("REQUEST RECEIVED"))
+        res.status(201).send('Request received');
+      }
+    });
+  });
+
 app.get('/getReply/:replyID', (req, res) => {
     const replyID = req.params.replyID;
     apicalls.getReply(replyID, (err, reply) => {
@@ -167,9 +180,6 @@ app.get('/getSubReplies/:replyID', (req, res) => {
 app.get('/test', (req, res) => {
     res.send('This is an empty endpoint!');
 });
-
-
-
 
 apicalls.getThread('0000000001', (err, thread) => {
     if (err) {

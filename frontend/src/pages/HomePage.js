@@ -57,7 +57,10 @@ function HomePage() {
 }, [])
 */
 
-const getSectionsOfUserURL = 'http://localhost:3000/getSectionsOfStudent/0000000001' // get sections of student 1 {$userID}
+
+
+const getSectionsOfUserURL = 'http://localhost:3000/getSectionsOfStudent/' // get sections of student 1 {$userID}
+const userID = "0000000001";
 const [threads, setThreads] = useState([]);
 const [sectionidarray, setsectionidarray] = useState([]);
 const [currentStateValue, setcurrentStateValue] = useState("0000000000"); //current section
@@ -69,7 +72,7 @@ const [replies, setReplies] = useState([]);
 
 // grabs the sections from userID
 useEffect(() => {
-  axios.get(getSectionsOfUserURL)
+  axios.get(getSectionsOfUserURL + userID)
 .then(response => {
   const tempData = response.data
   console.log("the first response is ")
@@ -156,7 +159,7 @@ axios.get(getThreadsForSectionUrl + JSON.stringify(currentStateValue).substring(
     console.log("Error here 2", err.message);
   }
 });
-}, [currentStateValue])
+}, [currentStateValue, creating])
 
 // fetch class thread values
 useEffect(() => {
@@ -265,7 +268,7 @@ console.log('Data found was : ', threads);
         {
           creating &&
 
-          <CreateThread sectionID = {currentStateValue}/>
+          <CreateThread sectionID = {currentStateValue} userID = {userID}/>
         }
       </currentHomepageContext.Provider>
     </div>
