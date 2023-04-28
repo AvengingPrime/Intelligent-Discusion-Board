@@ -46,19 +46,19 @@
 }
 
 .askButton {
-    width: 200px;
-    height: 35px;
+    width: 7vw;
+    height: 3vh;
     position: relative;
     left: 74vw;
-    bottom: -4vh; 
-    margin-left: 17vw;
-    margin-top: 3vh;
+    bottom: -1.3vh; 
+    /* margin-left: 17vw; */
+    /* margin-top: 3vh; */
 
 
     font-family: 'Karla';
     font-style: normal;
     font-weight: 700;
-    font-size: 28px;
+    font-size: 20px;
     line-height: 30px;
     letter-spacing: 0.05em;
     text-align: center;

@@ -7,6 +7,7 @@ import Search from "../components/Search"
 import Vote from "../components/Vote"
 import Create from "./Create";
 import Replies from "./Replies.js"
+import CreateThread from "../components/CreateThread";
 import '../styles/HomePage.css'
 
 import axios from "axios";
@@ -59,7 +60,8 @@ function HomePage() {
 const getSectionsOfUserURL = 'http://localhost:3000/getSectionsOfStudent/0000000001' // get sections of student 1 {$userID}
 const [threads, setThreads] = useState([]);
 const [sectionidarray, setsectionidarray] = useState([]);
-const [currentStateValue, setcurrentStateValue] = useState("0000000000");
+const [currentStateValue, setcurrentStateValue] = useState("0000000000"); //current section
+const [creating, setCreating] = useState(false);
 const [classThread, setclassThread] = useState([]);
 const [currentThread, setCurrentThread] = useState({'ThreadID' : "0000000000", 'Title' : "NULL", 'Text' : "NULL", 'Username' : "NULL"});
 const [replies, setReplies] = useState([]);
@@ -236,23 +238,35 @@ console.log('Data found was : ', threads);
 
   return (
     <div>
-      <currentHomepageContext.Provider value ={{currentStateValue, setcurrentStateValue, currentThread, setCurrentThread, setReplies}} >
+      <currentHomepageContext.Provider value ={{currentStateValue, setcurrentStateValue, currentThread, setCurrentThread, setReplies, setCreating}} >
         <Taskbar />
         <Dashboard sections={sectionidarray}/>
-        <Search />
+        <Search /> 
         
         <ClassThread coursename={classThread.CourseName} coursenumber={classThread.CourseNumber}
-        description={classThread.Description} professorname={classThread.Professor}/>   
-        
-        {currentThread.ThreadID == "0000000000" &&
+        description={classThread.Description} professorname={classThread.Professor}/>        
+
+        {
+          currentThread.ThreadID == "0000000000" && 
+          
+          !creating &&
+          
           threads.map((thread) => (
             <Thread key={thread.id} threadid={thread.ThreadID} title={thread.Title} description={thread.Text} author={thread.Username} />
-          ))}
-        
+          ))} 
         {
           currentThread.ThreadID != "0000000000" && 
-            <Replies replies={replies} thread={currentThread}/>
-        }    
+          
+          !creating &&
+
+          <Replies replies={replies} thread={currentThread}/>
+        }
+        
+        {
+          creating &&
+
+          <CreateThread sectionID = {currentStateValue}/>
+        }
       </currentHomepageContext.Provider>
     </div>
   );
