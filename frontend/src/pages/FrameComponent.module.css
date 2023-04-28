@@ -1,0 +1,99 @@
+.frameChild {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: var(--br-xl) 0 0 var(--br-xl);
+  background-color: var(--class-thread);
+  width: 680px;
+  height: 1024px;
+}
+.utDallasTexOrangeRemovebgIcon {
+  position: absolute;
+  top: 110px;
+  left: 57px;
+  width: 576px;
+  height: 179px;
+  object-fit: cover;
+}
+.logIn,
+.logIn1 {
+  position: absolute;
+  letter-spacing: 0.05em;
+}
+.logIn {
+  top: 194px;
+  left: 766px;
+  font-weight: 800;
+  color: rgba(165, 82, 21, 0.85);
+  text-align: left;
+}
+.logIn1 {
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.logInButton {
+  position: absolute;
+  top: 459px;
+  left: 864px;
+  border-radius: var(--br-21xl);
+  background-color: var(--class-thread);
+  width: 300px;
+  height: 40px;
+}
+.usernameInputField,
+.usernameInputField1 {
+  border: 0;
+  font-weight: 500;
+  font-family: var(--font-karla);
+  font-size: var(--font-size-5xl);
+  background-color: transparent;
+  position: absolute;
+  top: 238px;
+  left: 741px;
+  border-radius: var(--br-31xl);
+  width: 600px;
+  height: 70px;
+}
+.usernameInputField1 {
+  height: 100%;
+  width: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+.logInButton1,
+.passwordInputField {
+  position: absolute;
+  top: 319px;
+  left: 741px;
+  width: 600px;
+  height: 70px;
+}
+.logInButton1 {
+  text-decoration: none;
+  top: 536px;
+  left: 864px;
+  border-radius: var(--br-21xl);
+  background-color: var(--class-thread);
+  width: 300px;
+  height: 40px;
+  color: inherit;
+}
+.rectangleParent {
+  position: relative;
+  border-radius: var(--br-xl);
+  background-color: var(--color-white);
+  width: 100%;
+  height: 1024px;
+  overflow: hidden;
+  text-align: center;
+  font-size: var(--font-size-5xl);
+  color: var(--color-darkslategray);
+  font-family: var(--font-karla);
+}
