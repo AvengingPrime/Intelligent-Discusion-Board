@@ -3,7 +3,7 @@
   top: 0;
   left: 0;
   border-radius: var(--br-xl) 0 0 var(--br-xl);
-  background-color: var(--class-thread);
+  background-color: orange;
   width: 680px;
   height: 1024px;
 }
@@ -52,6 +52,7 @@
   font-family: var(--font-karla);
   font-size: var(--font-size-5xl);
   background-color: transparent;
+  border-color: black;
   position: absolute;
   top: 238px;
   left: 741px;
@@ -88,7 +89,7 @@
 .rectangleParent {
   position: relative;
   border-radius: var(--br-xl);
-  background-color: var(--color-white);
+  background-color: white;
   width: 100%;
   height: 1024px;
   overflow: hidden;

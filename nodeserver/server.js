@@ -5,6 +5,28 @@ const app = express();
 const cors = require('cors');
 const PORT = process.env.PORT || 3000;
 const IP_ADDRESS = '0.0.0.0';
+app.use(express.json());
+app.use(cors());
+app.post('/User', (req, res) => {
+    const { username, password } = req.body;
+    console.log("hello");
+    connection.query(
+      'SELECT * FROM User WHERE username = ? AND password = ?',
+      [username, password],
+      (err, result) => {
+        if (err) {
+          res.send({ err: err });
+        }
+  
+        if (result.length > 0) {
+          res.send(result);
+        } else {
+          res.send({ message: 'Wrong username/password combination' });
+        }
+      }
+    );
+  });
+
 app.listen(PORT, IP_ADDRESS, { backlog: 100, timeout: 120000 }, () => {
     console.log(`Server listening on port ${PORT}`);
 });
