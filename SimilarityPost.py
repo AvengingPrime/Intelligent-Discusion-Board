@@ -123,46 +123,48 @@ def similarToSyllabus(classID, query):
     # syllabusPath = "/home/generic/Syllabi/CS3162_091_S23_Syllabus.pdf"
     syllabus = extract_doc(syllabusPath)
     
+    print(syllabus)
+    
     sentences = []
     
     for page in syllabus:
         lines = page.split('\n')
         
-        for line in lines:
+        # for line in lines:
             
-            postTitleNLP = processText(line)
+        #     postTitleNLP = processText(line)
         
-            # print(postTitleNLP)
-            sim = qry.similarity(postTitleNLP)
-            print(line, sim)
-            if sim > .65:
-                sentences.append(line)
+        #     # print(postTitleNLP)
+        #     sim = qry.similarity(postTitleNLP)
+        #     print(line, sim)
+        #     if sim > .65:
+        #         sentences.append(line)
                 
         # sentences.append(results)
             
-        # sentence = requests.post(
-        #     "https://api.respell.ai/v1/run",
-        #     headers={
-        #     # This is your API key
-        #         'Authorization': 'Bearer 9d65caeb-469e-4db9-b25b-de5281c2fb24',
-        #         'Accept': 'application/json',
-        #         'Content-Type': 'application/json'
-        #     },
-        #     data=json.dumps({
-        #         "spellId": "5JxE-Bff38MvBbe4fLXBn",
-        #         # This field can be omitted to run the latest published version
-        #         # "spellVersionId": 'vIxGrmmaxvLB4Zug8yt2N',
-        #         # Fill in dynamic values for each of your 2 input blocks
-        #         "inputs": {
-        #             "text": 'Example text',
-        #             "user_post": query,
-        #         }
-        #     }),
-        # )
+        sentence = requests.post(
+            "https://api.respell.ai/v1/run",
+            headers={
+            # This is your API key
+                'Authorization': 'Bearer 9d65caeb-469e-4db9-b25b-de5281c2fb24',
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            data=json.dumps({
+                "spellId": "5JxE-Bff38MvBbe4fLXBn",
+                # This field can be omitted to run the latest published version
+                # "spellVersionId": 'vIxGrmmaxvLB4Zug8yt2N',
+                # Fill in dynamic values for each of your 2 input blocks
+                "inputs": {
+                    "text": page,
+                    "user_post": query,
+                }
+            }),
+        )
         
-        # print(sentence.json())
+        print(sentence.json())
         
-        # sentences.append(sentence.json()['outputs']['relevant_sentences'])
+        sentences.append(sentence.json()['outputs']['relevant_sentences'])
         
     result = "The following information from the Syllabus might be relevant or might answer the topic: " + str(sentences)
             
