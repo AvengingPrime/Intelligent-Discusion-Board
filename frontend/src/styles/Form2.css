@@ -88,3 +88,29 @@ textarea.InputText
     position: relative;
     top: 28vh;
 }
+
+.AdvancedSubmit
+{
+    position: relative;
+    top: 28vh;
+}
+
+.AdvancedResponseCard
+{
+    position: relative;
+    min-height: none;
+    max-height: max-content;
+    width: 80vw;
+    padding: 1.5vw;
+    top: 35vh;
+    background-color: #ffd66a;
+    border-radius: 10px;
+
+}
+
+/* .Results
+{
+    position: relative;
+    top: 0vh;
+    left: 15vw;
+} */

@@ -6,7 +6,7 @@ import axios from 'axios';
 import Vote from "./Vote";
 import {Link } from "react-router-dom";
 
-const Reply = ({replyid, author, description, upvotes, nested}) => {
+const Reply = ({replyid, author, description, upvotes, nested, special}) => {
 
     const [replies, setReplies] = useState([])
 
@@ -77,7 +77,7 @@ const Reply = ({replyid, author, description, upvotes, nested}) => {
               <body className="replyBody">{description}</body>
               <Vote count ={upvotes} />
   
-              {replies != [] &&
+              {replies != [] && !special &&
                   replies.map((reply) => (
                   <Reply key={reply.id} replyid={reply.ReplyID} author={reply.Username} description={reply.Text} upvotes={reply.Upvotes} nested = {true}/>
               ))}
