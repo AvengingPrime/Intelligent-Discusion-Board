@@ -8,6 +8,7 @@ import Vote from "../components/Vote"
 import Create from "./Create";
 import Replies from "./Replies.js"
 import CreateThread from "../components/CreateThread";
+import CreateReply from "../components/CreateReply";
 import '../styles/HomePage.css'
 
 import axios from "axios";
@@ -65,7 +66,9 @@ const [threads, setThreads] = useState([]);
 const [sectionidarray, setsectionidarray] = useState([]);
 const [currentStateValue, setcurrentStateValue] = useState("0000000000"); //current section
 const [creating, setCreating] = useState(false);
+const [creatingReply, setCreatingReply] = useState(false);
 const [classThread, setclassThread] = useState([]);
+const [currentReply, setCurrentReply] = useState('NULL')
 const [currentThread, setCurrentThread] = useState({'ThreadID' : "0000000000", 'Title' : "NULL", 'Text' : "NULL", 'Username' : "NULL"});
 const [replies, setReplies] = useState([]);
 
@@ -241,7 +244,7 @@ console.log('Data found was : ', threads);
 
   return (
     <div>
-      <currentHomepageContext.Provider value ={{currentStateValue, setcurrentStateValue, currentThread, setCurrentThread, setReplies, setCreating}} >
+      <currentHomepageContext.Provider value ={{currentStateValue, setcurrentStateValue, currentThread, setCurrentThread, setReplies, currentReply, setCurrentReply, setCreatingReply, setCreating}} >
         <Taskbar />
         <Dashboard sections={sectionidarray}/>
         <Search /> 
@@ -252,23 +255,29 @@ console.log('Data found was : ', threads);
         {
           currentThread.ThreadID == "0000000000" && 
           
-          !creating &&
+          !creating && !creatingReply && 
           
           threads.map((thread) => (
-            <Thread key={thread.id} threadid={thread.ThreadID} title={thread.Title} description={thread.Text} author={thread.Username} />
+            <Thread key={thread.id} threadid={thread.ThreadID} title={thread.Title} description={thread.Text} author={thread.Username} threadType={thread.ThreadType}/>
           ))} 
         {
           currentThread.ThreadID != "0000000000" && 
           
-          !creating &&
+          !creating && !creatingReply &&
 
           <Replies replies={replies} thread={currentThread}/>
         }
         
         {
-          creating &&
+          creating && !creatingReply && 
 
           <CreateThread sectionID = {currentStateValue} userID = {userID}/>
+        }
+
+        {
+          creatingReply && !creating && 
+
+          <CreateReply threadID = {currentThread.ThreadID} replyToID = {currentReply} userID = {userID}/>
         }
       </currentHomepageContext.Provider>
     </div>

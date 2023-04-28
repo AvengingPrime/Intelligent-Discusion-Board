@@ -285,19 +285,31 @@ Note: timestamp being used is current timestamp and every reply starts with
 //DOUBLE NOTE: With the current schema I am kind of clueless on how to go about handling a reply to a reply
 //potential TODO: either change the schema to better handle replies to replies or implement reply to reply
 //ANOTHER POTENTIAL TODO:will have to make it check if the thread exists or userID exists possibly
-function insertReply(replyId, userID, threadRepID, replyType, text) {
+function insertReply(ReplyToID, PosterID, ThreadID, text) {
     //This is the query that runs if not
-    const currentTimestamp = new Date().toISOString().slice(0, 19).replace('T', ' ');
-    const insertUserSql = 'INSERT INTO reply (replyId, userID, threadRepID, replyType, currentTimestamp, upVotes, downVotes, text) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
-    const insertUserValues = [replyId, userID, threadRepID, replyType, currentTimestamp, 0, 0, text];
+    // const currentTimestamp = new Date().toISOString().slice(0, 19).replace('T', ' ');
+    const generateNewID = 'SELECT COUNT(*) as count FROM REPLY'
+    const insertUserSql = 'SET FOREIGN_KEY_CHECKS = 0;\nINSERT INTO REPLY (ReplyId, ThreadID, PosterID, ReplyToID, replyType, upVotes, text) VALUES (?, ?, ?, ?, ?, ?, ?);\nSET FOREIGN_KEY_CHECKS = 1;';
     // Insert the new reply
-    connection.query(insertUserSql, insertUserValues, (error, results, fields) => {
-        if (error) {
-            console.error(error.message);
-            return;
-        }
-        console.log(`New Reply added with id: ${results.insertId}`);
+
+    connection.query( generateNewID, [], (error2, results2, fields2) => {
+        
+        count2 = results2[0].count;
+        genThreadID = "RE" + (count2 + "000000000").substring(0,10)
+        text = text.split('-').join(' ') 
+
+        const insertUserValues = [genThreadID, ThreadID, PosterID, ReplyToID, "reply", 0, text];
+
+        connection.query(insertUserSql, insertUserValues, (error, results, fields) => {
+            if (error) {
+                console.error('ERROR HERE\n', error.message);
+                return;
+            }
+            console.log(`New Reply added with id: ${genThreadID}`);
+        });
     });
+
+    
 }
 
 /*Deletes a reply from the reply table
@@ -623,6 +635,7 @@ function unmuteStudent(sectionID, userID, callback) {
 module.exports = {
     getThread: getThread,
     insertUser: insertUser,
+    insertReply: insertReply,
     getReply: getReply,
     getUser: getUser,
     getThreadForSection: getThreadForSection,

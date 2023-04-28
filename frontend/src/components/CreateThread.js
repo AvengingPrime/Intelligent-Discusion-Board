@@ -9,10 +9,11 @@ export default function CreateThread({sectionID, userID})
 { 
     //useEffect to post using api calls
 
-    const {currentStateValue, setcurrentStateValue, currentThread, setCurrentThread, setReplies, setCreating} = useContext(currentHomepageContext);
+    const {setCreating} = useContext(currentHomepageContext);
 
     const [submit, setSubmit] = useState(false)
     const [relevant, setRelevant] = useState(false)
+    const [anonymous, setAnonymous] = useState(false)
     const [generateAdvanced, setGenerateAdvanced] = useState(false)
     const [advancedResponse, setAdvancedResponse] = useState("")
     const [threadIDs, setThreadIDs] = useState([['NULL', 'NULL']])
@@ -39,12 +40,19 @@ export default function CreateThread({sectionID, userID})
       setGenerateAdvanced(true)
     }
 
+    function clearClick()
+    {
+      setGenerateAdvanced(false)
+      setRelevant(false)
+    }
+
 
     useEffect(() => {
         console.log("INSERT THREAD URL")
         console.log(submit)
-        console.log(submitPostUrl + sectionID + "/" + userID + "/norm/" + threadTitle.split(' ').join('-') + "/" + threadText.split(' ').join('-'))
-        axios.post(submitPostUrl + sectionID + "/" + userID + "/norm/" + threadTitle.split(' ').join('-') + "/" + threadText.split(' ').join('-'))
+        let tempUserID = (anonymous)? "0ANONYMOUS" : userID;
+        console.log(submitPostUrl + sectionID + "/" + tempUserID + "/norm/" + threadTitle.split(' ').join('-') + "/" + threadText.split(' ').join('-'))
+        axios.post(submitPostUrl + sectionID + "/" + tempUserID + "/norm/" + threadTitle.split(' ').join('-') + "/" + threadText.split(' ').join('-'))
 
       .then(response => {
 
@@ -110,7 +118,7 @@ export default function CreateThread({sectionID, userID})
         console.log(response)
         if(response.data.posts == [])
         {
-          setThreadIDs([])
+          // setThreadIDs([])
         }
         else
         {
@@ -245,6 +253,9 @@ export default function CreateThread({sectionID, userID})
                 {/* <AnonymousSelection/> */}
             </div>
 
+            <button className = "ClearSubmit" onClick = {clearClick}>
+                Clear
+            </button>
             <button className = "RelevantSubmit" onClick = {relevantClick}>
                 Get Relevant Responses
             </button>
@@ -254,6 +265,12 @@ export default function CreateThread({sectionID, userID})
             <button className = "AdvancedSubmit" onClick = {advancedClick}>
                 Advanced Submit
             </button>
+
+            <div className = "AnonymousCheck">
+              {anonymous && "Anonymous" || !anonymous && "Not Anonymous"}
+              <button onClick = {() => setAnonymous(!anonymous)}>Anon</button>
+            </div>
+            
 
             {
               relevant && !generateAdvanced &&

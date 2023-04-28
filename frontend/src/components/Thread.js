@@ -41,7 +41,7 @@ function handleThreadClick(ThreadID) {
 */
 
 
-const Thread = ({id, threadid, title, description, author, tags, isHidden, special}) => {
+const Thread = ({id, threadid, title, description, author, threadType, tags, isHidden, special, replyStage}) => {
 //function Thread(props) {
 //const Thread = ({threadData}) => {
 //const [details, setDetails] = useState([]);
@@ -92,15 +92,24 @@ const [replies2, setReplies2] = useState([]);
 // }
 
 
-const {currentStateValue, setcurrentStateValue, currentThread, setCurrentThread, setReplies, setCreating} = useContext(currentHomepageContext)
-    function handleClick()
+const {currentThread, setCurrentThread, setCreating, setCreatingReply} = useContext(currentHomepageContext)
+    
+  function handleClick()
     {
-      console.log("currentThread vals")
-      console.log(currentThread)
-      console.log(threadid)
-      setCurrentThread({'ThreadID' : threadid, 'Title' : title, 'Text' : description, 'Username' : author})
-      setCreating(false)
-      console.log(currentThread)
+      if(!replyStage || threadType == 'note')
+      {
+        console.log("currentThread vals")
+        console.log(currentThread)
+        console.log(threadid)
+        setCurrentThread({'ThreadID' : threadid, 'Title' : title, 'Text' : description, 'Username' : author})
+        setCreating(false)
+        console.log(currentThread)
+      }
+      else
+      {
+        
+        setCreatingReply(true)
+      }
     }
 
     return (

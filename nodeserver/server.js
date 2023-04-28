@@ -41,6 +41,19 @@ app.post('/insertThread/:sectionID/:userID/:threadType/:title/:text', (req, res)
     });
   });
 
+  app.post('/insertReply/:ThreadID/:PosterID/:ReplyToID/:text', (req, res) => {
+    const { ThreadID, PosterID, ReplyToID, text } = req.params;
+    apicalls.insertReply(ThreadID, PosterID, ReplyToID, text, (err) => {
+      if (err) {
+        console.error(err+"\n");
+        res.status(500).send(err+"\n");
+      } else {
+        res.send(JSON.parse("REQUEST RECEIVED"))
+        res.status(201).send('Request received');
+      }
+    });
+  });
+
 app.get('/getReply/:replyID', (req, res) => {
     const replyID = req.params.replyID;
     apicalls.getReply(replyID, (err, reply) => {
@@ -85,8 +98,6 @@ app.get('/getThread/:threadID', (req, res) => {
         }
     });
 });
-
-
 
 app.get('/getUser/:userID', (req, res) => {
     const userID = req.params.userID;

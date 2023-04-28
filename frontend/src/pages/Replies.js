@@ -21,7 +21,7 @@ function Replies(thread, replies) {
     {/* Threads will be populated based on the storedThreads in ClassThread */}
     {/* <Taskbar/>
     <Search/> */}
-    <Thread title={thread.thread.Title} description={thread.thread.Text} author={thread.thread.Username} tags={['tags', 'go', 'here']} />
+    <Thread title={thread.thread.Title} description={thread.thread.Text} author={thread.thread.Username} tags={['tags', 'go', 'here']} threadType = {thread.thread.ThreadType} replyStage = {true} />
     {thread.replies != [] && 
       thread.replies.map((reply) => (
       <Reply key={reply.id} replyid={reply.ReplyID} author={reply.Username} description={reply.Text} upvotes={reply.Upvotes} nested={false} />

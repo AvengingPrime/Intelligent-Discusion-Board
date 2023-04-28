@@ -1,14 +1,22 @@
 import React from "react";
 import '../styles/Reply.css';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { ReactDOM } from "react";
 import axios from 'axios';
 import Vote from "./Vote";
 import {Link } from "react-router-dom";
+import { currentHomepageContext } from "../pages/HomePage";
 
 const Reply = ({replyid, author, description, upvotes, nested, special}) => {
 
+    const {setCreatingReply, setCurrentReply} = useContext(currentHomepageContext)
     const [replies, setReplies] = useState([])
+
+    function handleClick()
+    {
+      setCurrentReply(replyid)
+      setCreatingReply(true)
+    }
 
     console.log('REPLY MADE 3.0')
     console.log(replyid, author)
@@ -70,7 +78,7 @@ const Reply = ({replyid, author, description, upvotes, nested, special}) => {
             {!nested &&
               
 
-              <button className="replyCard">
+              <button className="replyCard" onClick = {handleClick}>
               
               <h3 className= "replyAuthor">{author}</h3>
   
@@ -81,8 +89,6 @@ const Reply = ({replyid, author, description, upvotes, nested, special}) => {
                   replies.map((reply) => (
                   <Reply key={reply.id} replyid={reply.ReplyID} author={reply.Username} description={reply.Text} upvotes={reply.Upvotes} nested = {true}/>
               ))}
-  
-              
               
               </button>
             }
