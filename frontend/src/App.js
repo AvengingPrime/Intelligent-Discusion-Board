@@ -7,12 +7,12 @@ import ClassThread from "./components/ClassThread"
 import Search from "./components/Search"
 import TestComponent from "./components/TestComponent";
 
-import { BrowserRouter, Form, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import AdminPage from "./pages/AdminPage";
 import HomePage from "./pages/HomePage";
 import Profile from "./pages/Profile";
 import Replies from "./pages/Replies";
-import Create from "./pages/Create";
+import Form from "./pages/Form";
 //import Form from "./pages/Form";
 import Test from "./pages/Test";
 
@@ -97,7 +97,7 @@ function App() {
         <Routes>
           <Route path = '/' element ={<HomePage />}         />
           <Route path = '/profile' element={<Profile />}    />
-          <Route path = '/createThread' element={<Create />}/>
+          <Route path = '/Form' element={<Form />}/>
           <Route path = '/:id/replies' element={<Replies />}/>
           <Route path = '/testpage' element={<Form />} />
           
