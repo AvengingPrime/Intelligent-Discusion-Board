@@ -13,6 +13,7 @@ import HomePage from "./pages/HomePage";
 import Profile from "./pages/Profile";
 import Replies from "./pages/Replies";
 import Form from "./pages/Form";
+import FrameComponent from "./pages/FrameComponent";
 //import Form from "./pages/Form";
 import Test from "./pages/Test";
 
@@ -95,7 +96,8 @@ function App() {
       <BrowserRouter>
 
         <Routes>
-          <Route path = '/' element ={<HomePage />}         />
+          <Route path = '/' element ={<FrameComponent />}         />
+          <Route path = '/HomePage' element ={<HomePage />}         />
           <Route path = '/profile' element={<Profile />}    />
           <Route path = '/Form' element={<Form />}/>
           <Route path = '/:id/replies' element={<Replies />}/>

@@ -14,7 +14,7 @@ const {isAdmin} = useContext(AdminContext);
             <div className = "Taskbar">
                 <div className = "TaskbarButtons">
                 
-                <Link to ='/' className="functionButton">
+                <Link to ='/HomePage' className="functionButton">
                     <button>
                         Home
                     </button>
