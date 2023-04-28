@@ -16,15 +16,19 @@ from PyPDF2 import PdfReader
 # print("Embeddings: ", embeddings)
 
 from flask import Flask
+from flask_cors import CORS, cross_origin
 from flask import jsonify
 app = Flask(__name__)
+cors = CORS(app)
+# app.config['CORS_HEADERS'] = 'Content-Type'
+
 
 from mysql.connector import connect, Error
 
 def getAllClassPosts(classID):
     try:
         connection = connect(
-            host="localhost",
+            host= "10.176.67.70",
             user='team7',
             password='idb',
             database="IntelligentDiscussionBoard",
@@ -47,7 +51,7 @@ def getAllClassPosts(classID):
 def getSyllabus(classID):
     try:
         connection = connect(
-            host="localhost",
+            host="10.176.67.70",
             user='team7',
             password='idb',
             database="IntelligentDiscussionBoard",
@@ -63,6 +67,29 @@ def getSyllabus(classID):
         syllabusPath = result[0][0]
         print(result)
         return syllabusPath
+                
+    except Error as e:
+        # return None
+        print(e)
+        
+def getProfessor(classID):
+    try:
+        connection = connect(
+            host= "10.176.67.70",
+            user='team7',
+            password='idb',
+            database="IntelligentDiscussionBoard",
+            # port="3307"
+        )
+        
+        print(connection)
+            
+        cursor = connection.cursor()
+        cursor.execute("SELECT U.Username, S.CourseName, S.Description\nFROM SECTION AS S, USER AS U\nWHERE U.UserID = S.ProfessorID AND SectionID = " + str(classID))
+                
+        result = cursor.fetchall()
+        # print(result)
+        return result
                 
     except Error as e:
         # return None
@@ -86,6 +113,7 @@ def getPosts(classID, query):
     # similarity = {0 : [None, 0], 1: [None, 0], 2:[None, 0]}
     results = []
     
+    
     for postTitle in posts:
         # print(posts[post]['title'])
         postTitleNLP = processText(postTitle[0])
@@ -94,10 +122,10 @@ def getPosts(classID, query):
         sim = qry.similarity(postTitleNLP)
         print(postTitle, sim)
         if sim > .7:
-            results += postTitle
+            results.append(postTitle)
             
 
-    # print("".join(results))
+    # print(results)
     
     return jsonify({'posts' : results})
 
@@ -115,14 +143,24 @@ def extract_doc(input_dir):
         text = '\n'.join(text)
         yield text
 
-@app.route('/syllabus/<classID>/<query>')
-def similarToSyllabus(classID, query):
+@app.route('/general/<classID>/<title>/<post>')
+def similarToSyllabus(classID, title, post):
+    if classID == "" or title == "" or post == "":
+        return
+    
+    return jsonify({'relevant' : 'Hello, The main difference between linear and logarithmic regression lies in the relationship between the independent variable(s) and the dependent variable. In linear regression, the relationship between the independent variable(s) and the dependent variable is assumed to be linear, meaning that the change in the dependent variable is proportional to the change in the independent variable(s). The equation for a simple linear regression model is: y = a + bx where y is the dependent variable, x is the independent variable, a is the intercept, and b is the slope of the line. In logarithmic regression, the relationship between the independent variable(s) and the dependent variable is assumed to be logarithmic, meaning that the dependent variable changes in proportion to the logarithm of the independent variable(s). The equation for a simple logarithmic regression model is: y = a + b * log(x) where y is the dependent variable, x is the independent variable, a is the intercept, b is the slope of the line, and log(x) is the natural logarithm of x. Logarithmic regression can be useful for modeling situations where the rate of change in the dependent variable decreases as the independent variable increases, such as in cases of diminishing returns or exponential decay. In summary, linear regression assumes a linear relationship between variables, while logarithmic regression assumes a logarithmic relationship. The choice between the two depends on the nature of the data and the underlying relationships between the variables.'})
+    
     syllabusPath = getSyllabus(classID)
-    query = ' '.join(query.lower().split('-'))
+    query = 'Title: ' + ' '.join(title.split('-')) + '\nPost: ' +  ' '.join(post.lower().split('-'))
     qry = processText(query)
     # syllabusPath = "/home/generic/Syllabi/CS3162_091_S23_Syllabus.pdf"
     syllabus = extract_doc(syllabusPath)
+    moreInfo = getProfessor(classID)
     
+    # print(moreInfo)
+    
+    print("SYLLABUS PATH : ")
+    print(syllabusPath)
     print(syllabus)
     
     sentences = []
@@ -141,6 +179,8 @@ def similarToSyllabus(classID, query):
         #         sentences.append(line)
                 
         # sentences.append(results)
+        
+        sentence = ""
             
         sentence = requests.post(
             "https://api.respell.ai/v1/run",
@@ -165,10 +205,32 @@ def similarToSyllabus(classID, query):
         print(sentence.json())
         
         sentences.append(sentence.json()['outputs']['relevant_sentences'])
+
+    finalResponse = requests.post(
+        "https://api.respell.ai/v1/run",
+        headers={
+            # This is your API key
+            'Authorization': 'Bearer 9d65caeb-469e-4db9-b25b-de5281c2fb24',
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        data=json.dumps({
+            "spellId": "44PzkK572qEohHItfQ5my",
+            # This field can be omitted to run the latest published version
+            # "spellVersionId": 'sk9ni-R73viQWbK0nx8wV',
+            # Fill in dynamic values for each of your 4 input blocks
+            "inputs": {
+            "email": query,
+            "resources": "\n".join(sentences),
+            "name": moreInfo[0][0],
+            "profession": moreInfo[0][1],
+            }
+        })
+    )
         
-    result = "The following information from the Syllabus might be relevant or might answer the topic: " + str(sentences)
+    # result = "The following information from the Syllabus might be relevant or might answer the topic: " + str(sentences)
             
-    return jsonify({'relevant': result})
+    return jsonify({'relevant': finalResponse.json()['outputs']['email_response']})
 
 @app.route("/")
 def hello():

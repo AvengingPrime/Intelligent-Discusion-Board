@@ -3,6 +3,7 @@ import {useState, useEffect, useContext} from "react"
 import axios from "axios";
 import { currentHomepageContext } from "../pages/HomePage"
 import "../styles/Form2.css"
+import Thread from "./Thread";
 
 export default function CreateThread({sectionID, userID})
 { 
@@ -11,33 +12,39 @@ export default function CreateThread({sectionID, userID})
     const {currentStateValue, setcurrentStateValue, currentThread, setCurrentThread, setReplies, setCreating} = useContext(currentHomepageContext);
 
     const [submit, setSubmit] = useState(false)
-    const [getRelevant, setRelevant] = useState(false)
+    const [relevant, setRelevant] = useState(false)
+    const [generateAdvanced, setGenerateAdvanced] = useState(false)
+    const [advancedResponse, setAdvancedResponse] = useState("")
+    const [threadIDs, setThreadIDs] = useState([['NULL', 'NULL']])
+    const [relevantThreads, setRelevantThreads] = useState([])
     const [threadTitle, setThreadTitle] = useState("")
     const [threadText, setThreadText] = useState("")
 
     const submitPostUrl = "http://localhost:3000/insertThread/"
+    const getRelevantThreadUrl = "http://localhost:5000/query/"
+    const getAdvancedInformationUrl = "http://localhost:5000/general/"
+    const getThreadsUrl = "http://localhost:3000/getThread/"
 
-    // function getRelevant()
-    // {
+    function relevantClick()
+    {
+      setRelevant(false)
+      setGenerateAdvanced(false)
+      setRelevant(true)
+    }
 
-    // }
+    function advancedClick()
+    {
+      setGenerateAdvanced(false)
+      setRelevant(false)
+      setGenerateAdvanced(true)
+    }
 
-    // function clickSubmit()
-    // {
-    //     setSubmit(true);
-    //     // setCreating(false);
-    // }
 
     useEffect(() => {
         console.log("INSERT THREAD URL")
         console.log(submit)
         console.log(submitPostUrl + sectionID + "/" + userID + "/norm/" + threadTitle.split(' ').join('-') + "/" + threadText.split(' ').join('-'))
-        // if(submit)
-        // {
-        //     setCreating(false)
-        // }
         axios.post(submitPostUrl + sectionID + "/" + userID + "/norm/" + threadTitle.split(' ').join('-') + "/" + threadText.split(' ').join('-'))
-        // setCreating(false)
 
       .then(response => {
 
@@ -77,11 +84,146 @@ export default function CreateThread({sectionID, userID})
       });
 
       if(submit == true)
-        {
+      {
             setCreating(false)
-        }
-
+      }
       }, [submit])
+
+      useEffect(() => {
+        if(!relevant)
+        {
+          return
+        }
+        console.log("RELEVANT THREAD URL")
+        console.log(relevant)
+        console.log(getRelevantThreadUrl + sectionID + "/" + threadTitle.split(' ').join('-'))
+        // if(submit)
+        // {
+        //     setCreating(false)
+        // }
+        axios.get(getRelevantThreadUrl + sectionID + "/" + threadTitle.split(' ').join('-'), {mode:'no-cors'})
+        // setCreating(false)
+
+      .then(response => {
+
+        console.log("RELEVANT FOUND")
+        console.log(response)
+        if(response.data.posts == [])
+        {
+          setThreadIDs([])
+        }
+        else
+        {
+          setThreadIDs(response.data.posts)
+        }
+      })
+      .catch((err) => {
+        // handling error
+        if (err.response) {
+          // Request made and server responded
+      
+          const { status, config } = err.response;
+      
+          if (status === 404) {
+            console.log(`${config.url} not found`);
+          }
+          if (status === 500) {
+            console.log("Server error");
+          }
+        } else if (err.request) {
+          // Request made but no response from server
+          console.log("Error 3", err.message);
+        } else {
+          // some other errors
+          console.log("Error 4", err.message);
+        }
+      });
+      }, [relevant])
+
+      useEffect(() => {
+        if(!generateAdvanced)
+        {
+          return
+        }
+        console.log("ADVANCED INFO URL")
+        console.log(generateAdvanced)
+        console.log(getAdvancedInformationUrl + sectionID + "/" + threadTitle.split(' ').join('-') + "/" + threadText.split(' ').join('-'))
+        // if(submit)
+        // {
+        //     setCreating(false)
+        // }
+        axios.get(getAdvancedInformationUrl + sectionID + "/" + threadTitle.split(' ').join('-') + "/" + threadText.split(' ').join('-'), {mode:'no-cors'})
+        // setCreating(false)
+
+      .then(response => {
+
+        console.log("ADVANCED FOUND")
+        console.log(response)
+        setAdvancedResponse(response.data.relevant)
+      })
+      .catch((err) => {
+        // handling error
+        if (err.response) {
+          // Request made and server responded
+      
+          const { status, config } = err.response;
+      
+          if (status === 404) {
+            console.log(`${config.url} not found`);
+          }
+          if (status === 500) {
+            console.log("Server error");
+          }
+        } else if (err.request) {
+          // Request made but no response from server
+          console.log("Error 3", err.message);
+        } else {
+          // some other errors
+          console.log("Error 4", err.message);
+        }
+      });
+      }, [generateAdvanced])
+
+      useEffect(() => {
+        // console.log("RELEVANT THREAD URL")
+        // console.log(relevant)
+        // console.log(getRelevantThreadUrl + sectionID + "/" + threadTitle.split(' ').join('-'))
+        // if(submit)
+        // {
+        //     setCreating(false)
+        // }
+
+        axios.get(getThreadsUrl + threadIDs[0][1])
+        // setCreating(false)
+
+      .then(response => {
+        console.log("RELEVANT FOUND")
+        console.log(response)
+        setRelevantThreads(response.data)
+        // setThreadIDs(response.data.posts)
+      })
+      .catch((err) => {
+        // handling error
+        if (err.response) {
+          // Request made and server responded
+      
+          const { status, config } = err.response;
+      
+          if (status === 404) {
+            console.log(`${config.url} not found`);
+          }
+          if (status === 500) {
+            console.log("Server error");
+          }
+        } else if (err.request) {
+          // Request made but no response from server
+          console.log("Error 3", err.message);
+        } else {
+          // some other errors
+          console.log("Error 4", err.message);
+        }
+      });
+      }, [threadIDs])
 
     return(
         <div className = "CreateThread">
@@ -103,14 +245,31 @@ export default function CreateThread({sectionID, userID})
                 {/* <AnonymousSelection/> */}
             </div>
 
-            <button className = "RelevantSubmit" onClick = {() => setRelevant(true)}>
+            <button className = "RelevantSubmit" onClick = {relevantClick}>
                 Get Relevant Responses
             </button>
             <button className = "Submit" onClick = {() => setSubmit(true)}>
                 Submit
             </button>
+            <button className = "AdvancedSubmit" onClick = {advancedClick}>
+                Advanced Submit
+            </button>
 
+            {
+              relevant && !generateAdvanced &&
 
+              <Thread className = "Results" threadid = {relevantThreads.ThreadID} title = {relevantThreads.Title} description={relevantThreads.Text} author = {relevantThreads.Username} special = {true}/>
+            }
+
+            {
+              generateAdvanced && !relevant && 
+
+              <div className = "AdvancedResponseCard">
+                Auto Generated Response <br/><br/>
+                {advancedResponse}
+              </div>
+            }
+            
         </div>
     );
 }

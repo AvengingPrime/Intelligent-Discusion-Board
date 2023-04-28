@@ -24,11 +24,31 @@ button.threadCard {
     border-radius: 10px 10px 10px 10px;
     margin-top: 10px;
     margin-bottom: 10px;
+    /* margin-left: 15vw; */
     margin-left: 15vw;
     text-align: left;
 
     cursor: pointer;
     
+}
+
+button.threadCard2 {
+    position: relative;
+    /* float: right; */
+    width: 83vw;
+    /* height: 120px; */
+    height: 14vh;
+    max-height: max-content;
+    background: rgba(181, 134, 78, 0.26);
+    border-radius: 10px 10px 10px 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    top: 35vh;
+    /* margin-left: 15vw; */
+    /* margin-left: 15vw; */
+    text-align: left;
+
+    cursor: pointer;
 }
 
 button.hideThread {
