@@ -1,10 +1,8 @@
-import React, { useContext } from "react";
+import React from "react";
 import '../styles/ClassThread.css';
 import {Link } from "react-router-dom";
 import {axios} from "axios";
-import { useEffect, useState} from "react";
-import { currentHomepageContext } from "../pages/HomePage";
-
+import { useEffect, useState } from "react";
 
 const ClassThread = ({coursenumber, coursename, description, professorname}) => {
 /*
@@ -38,24 +36,16 @@ const ClassThread = ({coursenumber, coursename, description, professorname}) => 
         });
     }, [])
     */
-
-    const {currentStateValue, setcurrentStateValue, currentThread, setCurrentThread, setReplies, setCreating} = useContext(currentHomepageContext)
-
-    function handleClick()
-    {
-        setCreating(true)
-    }
-
     return (
         <div className="ClassThreadCard">
             <h1 className= "ClassThreadTitle">{coursenumber} - {coursename} - {professorname}</h1>
-            <body className = "ClassThreadDescription">{description}</body>
+            <body>{description}</body>
             {/*}
             <h1 className= "ClassThreadTitle">{CourseNumber} - {CourseName} - Professor {ProfessorID}</h1>
             <body>{Description}</body>
     */}
 
-            <button className = "askButton" onClick={handleClick}>Ask a Question</button>
+            <Link to ='/Form' className = "askButton">Ask a Question</Link>
 
         </div>
     )
