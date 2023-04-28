@@ -1,13 +1,14 @@
 .ClassThreadDescription {
     position: relative;
     font-family: Karla;
-    font-size: 12px;
+    font-size: 18px;
     font-weight: 400;
-    line-height: 14px;
+    /* line-height: 20px; */
     letter-spacing: 0.05em;
     /* text-align: left; */
-    /* top: 25 vh; */
-    /* left: 5vw; */
+    top: 2vh; 
+    left: 0vw; 
+    
 }
 
 .ClassThreadCard {
@@ -48,8 +49,8 @@
     width: 200px;
     height: 35px;
     position: relative;
-    /* left: 7vw;
-    top: 3vh; */
+    left: 74vw;
+    bottom: -4vh; 
     margin-left: 17vw;
     margin-top: 3vh;
 
@@ -57,8 +58,8 @@
     font-family: 'Karla';
     font-style: normal;
     font-weight: 700;
-    font-size: 18px;
-    line-height: 16px;
+    font-size: 28px;
+    line-height: 30px;
     letter-spacing: 0.05em;
     text-align: center;
     color: #2C2929;

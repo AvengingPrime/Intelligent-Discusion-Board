@@ -75,13 +75,14 @@ const Reply = ({replyid, author, description, upvotes, nested}) => {
               <h3 className= "replyAuthor">{author}</h3>
   
               <body className="replyBody">{description}</body>
+              <Vote count ={upvotes} />
   
               {replies != [] &&
                   replies.map((reply) => (
                   <Reply key={reply.id} replyid={reply.ReplyID} author={reply.Username} description={reply.Text} upvotes={reply.Upvotes} nested = {true}/>
               ))}
   
-              {/* <Vote count ={upvotes} /> */}
+              
               
               </button>
             }
@@ -94,6 +95,7 @@ const Reply = ({replyid, author, description, upvotes, nested}) => {
               <h3 className= "replyAuthor">{author}</h3>
   
               <body className="replyBody">{description}</body>
+              
   
               {replies != [] &&
                   replies.map((reply) => (

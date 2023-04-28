@@ -1,9 +1,9 @@
 .replyBody {
     left: 7px;
     font-family: Karla;
-    font-size: 12px;
+    font-size: 18px;
     font-weight: 400;
-    line-height: 14px;
+    /* line-height: 14px; */
     letter-spacing: 0.05em;
     text-align: left;
 }
@@ -13,7 +13,7 @@
     float: right;
     /* min-width: 83vw; */
     /* max-width: max-content; */
-    width: 83vw;
+    width: 84vw;
     /* max-width: max; */
     /* height: 15vh; */
     max-height: max-content;
