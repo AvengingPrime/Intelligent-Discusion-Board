@@ -14,13 +14,13 @@ const {isAdmin} = useContext(AdminContext);
             <div className = "Taskbar">
                 <div className = "TaskbarButtons">
                 
-                <Link to ='/HomePage' className="functionButton">
+                {/* <Link to ='/HomePage' className="functionButton">
                     <button>
                         Home
                     </button>
-                </Link>
+                </Link> */}
 
-                <Link to ='/profile' className = "functionButton">
+                {/* <Link to ='/profile' className = "functionButton">
                     <button>
                         Profile
                     </button>
@@ -29,7 +29,7 @@ const {isAdmin} = useContext(AdminContext);
                     <button>
                         Ask a Question
                     </button>
-                </Link>
+                </Link> */}
                 <Link to ='/testingpage' className="functionButton">
                     {
                     isAdmin && 
